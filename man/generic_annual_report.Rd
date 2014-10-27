@@ -1,0 +1,114 @@
+\name{generic_annual_report}
+\alias{prepare.annual_report}
+\alias{calculate.annual_report}
+%\alias{write.annual_report}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+%%  ~~function to do ... ~~
+Funzioni per produrre statistiche annuali (una stazione)
+}
+\description{
+%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Funzioni per produrre le statistiche annuali tipiche (media annua, superamenti giornalieri della media e del max della media mobile su 8h) per una singola stazione: estrazione, calcoli, scrittura su DB.
+}
+\usage{
+prepare.annual_report(con, id.staz, id.param, year=NULL, tstep="d", ...)
+calculate.annual_report(data, thr.daily.ave=NULL, thr.ave8h.max=NULL)
+%write.annual_report(con, AR, empty=F, verbose=F, ...)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{con}{
+identificativo della connessione al DB (stringa)
+}
+  \item{id.staz}{
+codice numerico identificativo della stazione
+}
+  \item{id.param}{
+codice numerico identificativo dell'inquinante
+}
+  \item{year}{
+anno per cui si richiede il report. Se lasciato \code{NULL} prende l'anno di 5 mesi fa, facendo riferimento a \code{Sys.Date()}.
+}
+  \item{tstep}{
+stringa di carattere che identifica il timestep ("H" o "d", orario o giornaliero)
+}
+  \item{data}{
+dati estratti da \code{prepare.annual_report}
+}
+  \item{thr.daily.ave}{
+soglia per la media giornaliera
+}
+  \item{thr.ave8h.max}{
+soglia per il max giornaliero della media mobile su 8h
+}
+  \item{AR}{
+lista di \code{data.frame} prodotta da \code{calculate.annual_report} (vedi Value)
+}
+  \item{empty}{
+svuota tutta la tabella del DB prima di scriverci
+}
+  \item{verbose}{
+scrive a video alcune informazioni utili per il debug
+}
+  \item{\dots}{
+parametri opzionali. La funzione \code{prepare.annual_report} li passa a \code{dbqa.get.datastaz}; la funzione \code{write.annual_report} li passa a \code{dbqa.insert}.
+}
+}
+\details{
+%%  ~~ If necessary, more details than the description above ~~
+}
+\value{
+%%  ~Describe the value returned
+%%  If it is a LIST, use
+%%  \item{comp1 }{Description of 'comp1'}
+%%  \item{comp2 }{Description of 'comp2'}
+%% ...
+La funzione \code{calculate.annual_report} restituisce un \code{data.frame} con:
+\item{annual.mean     }{media annua}
+\item{annual.nValid   }{numero di dati validi usati per il calcolo della media annua}
+\item{annual.percValid}{percentuale di dati validi usati per il calcolo della media annua}
+
+se \code{thr.daily.ave} non è \code{NULL} allora \code{data.frame} ha anche:
+\item{daily.nexc}{superamenti della media giornaliera}
+\item{daily.nValid}{numero di dati validi usati per il calcolo dei superamenti della media giornaliera}
+\item{daily.percValid}{percentuale di dati validi usati per il calcolo dei superamenti della media giornaliera}
+
+se \code{thr.ave8h.max} non è \code{NULL} allora \code{data.frame} ha anche:
+\item{ave8h.nexc}{superamenti del max giornaliero della media mobile su 8h}
+\item{ave8h.nValid}{numero di dati validi usati per il calcolo dei superamenti del max giornaliero della media mobile su 8h}
+\item{ave8h.percValid}{percentuale di dati validi usati per il calcolo dei superamenti del max giornaliero della media mobile su 8h}
+}
+\references{
+%% ~put references to the literature/web site here ~
+}
+\author{
+%%  ~~who you are~~
+Giovanni Bonafe', Arpa Emilia-Romagna
+}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+%\section{Warning }{
+% Usare l'opzione \code{empty=TRUE} solo se strettamente necessario: svuota tutta la tabella ??? dell'ozono sul DB.
+%}
+\seealso{
+%% ~~objects to See Also as \code{\link{help}}, ~~~
+}
+\examples{
+\dontrun{
+db_usr="yourUsername"
+db_pwd="yourPassword"
+db_name="DBaddress"
+con1 <- dbqa.connect(db_usr, db_pwd, db_name)
+dat <- prepare.annual_report(con=con1, id.staz="2000003")
+calculate.annual_report(data=dat)
+dbDisconnect(con1)
+}
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~ozone }
+\keyword{ ~air quality }% __ONLY ONE__ keyword per line

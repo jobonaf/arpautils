@@ -1,0 +1,12 @@
+ * debug bin/ODR.R per la gestione di data/ora (p.es.2003 RE)
+ * standardizzare sintassi Oracle usando YYYY-MM-DD (maiuscolo)
+ * funzioni e procedure per statistiche annuali:
+  * ozono
+  * PM10, PM2.5
+  * SO2, NO2, NOx, CO, benzene
+  * Pb, As, Cd, Ni, benzo(a)pyrene
+ * funzioni e procedure per statistiche mensili
+ * controllare completa conformità all'Istruzione Operativa http://aggiornati.arpa.emr.it/qualita/documento.aspx?id=34458
+ * gestire LOD
+ * funzioni e procedure per IQA
+ * integrazione con openair per calcolo trend, giorni tipo, settimana tipo
