@@ -40,6 +40,8 @@ dbqa.get.datasens <- function(con,
                               id.cfgsens,
                               id.param,
                               flg=1,
+                              flg.excl=NULL,
+                              flg.null=FALSE,
                               verbose=FALSE,
                               table="storico",
                               ...) {
@@ -62,13 +64,27 @@ dbqa.get.datasens <- function(con,
                   "','YYYY-MM-DD HH24:MI') and to_date('",
                   format(as.POSIXct(ts.range[2]),"%Y-%m-%d %H:%M"),
                   "','YYYY-MM-DD HH24:MI')",sep=""))
-  if(!is.null(flg)) {
+  if(!is.null(flg) | flg.null) {
+    CF <- NULL
+    if(!is.null(flg)) {
+      cf <- paste("(",
+                  paste(paste("FLG_A=",flg,sep=""),collapse=" OR "),
+                  ")",sep="")
+      CF <- c(CF,cf)
+    }        
+    if(flg.null) {
+      cf <- "(FLG_A IS NULL)"
+      CF <- c(CF,cf)
+    }
+    crit <- c(crit,paste("(",paste(CF, collapse=" OR "),")",sep=""))
+  }
+  if(!is.null(flg.excl)) {
     crit <- c(crit,
               paste("(",
-                    paste(paste("FLG_A=",flg,sep=""),collapse=" OR "),
-              ")",sep=""))
+                    paste(paste("FLG_A!=",flg.excl,sep=""),collapse=" AND "),
+                    ")",sep=""))
   }        
-    
+  
   query <- simple.query(tab,what,crit)
   if(verbose)  print(query)
 #  data <- fetch(ds <- dbSendQuery(con, query, ...))

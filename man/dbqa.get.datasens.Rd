@@ -10,7 +10,7 @@ Estrae i dati di un sensore
 Estrae i dati di un sensore 
 }
 \usage{
-dbqa.get.datasens(con, ts.range, id.cfgsens, id.param, flg = 1, verbose=FALSE, table="storico",...)
+dbqa.get.datasens(con, ts.range, id.cfgsens, id.param, flg = 1, flg.excl=NULL, flg.null=FALSE, verbose=FALSE, table="storico",...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,7 +32,15 @@ codice numerico dell'inquinante
 }
   \item{flg}{
 %%     ~~Describe \code{flg} here~~
-valore (o valori) accettati per la flag di qualita'
+valore (o valori) accettati per la flag di qualita'. Se \code{NULL} non viene posta alcuna condizione includente sulla flag
+}
+  \item{flg.excl}{
+%%     ~~Describe \code{flg} here~~
+valore (o valori) non accettati per la flag di qualita'. Se \code{NULL} non viene posta alcuna condizione escludente sulla flag
+}
+  \item{flg.null}{
+%%     ~~Describe \code{flg} here~~
+se \code{TRUE} vengono estratti anche record con valori di flag pari a 'NULL' nel DB, cioè non sottoposti ad alcuna validazione
 }
   \item{verbose}{
 %%     ~~Describe \code{flg} here~~
