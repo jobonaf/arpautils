@@ -256,8 +256,7 @@ write.ozone_daily_report <- function(con,
                                     V_ELAB_F       =ODR$events$exc.180$max,
                                     TS1_V1_ELAB    =date4db(ODR$events$exc.180$start.time),
                                     TS2_V1_ELAB    =date4db(ODR$events$exc.180$start.time+
-                                                               3600*ODR$events$exc.180$duration+
-                                                               60*60),
+                                                               3600*ODR$events$exc.180$duration),
                                     TS_INS         =date4db(Sys.time()),
                                     FLG_ELAB       =1,
                                     row.names = NULL),
@@ -276,8 +275,7 @@ write.ozone_daily_report <- function(con,
                                     V_ELAB_F       =ODR$events$exc.240$max,
                                     TS1_V1_ELAB    =date4db(ODR$events$exc.240$start.time),
                                     TS2_V1_ELAB    =date4db(ODR$events$exc.240$start.time+
-                                                             3600*ODR$events$exc.240$duration+
-                                                             60*60),
+                                                             3600*ODR$events$exc.240$duration),
                                     TS_INS         =date4db(Sys.time()),
                                     FLG_ELAB       =1,
                                     row.names = NULL),

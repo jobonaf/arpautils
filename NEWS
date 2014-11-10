@@ -1,3 +1,8 @@
+Changes in arpautils 0.8.2 [2014-11-10]
+=====================================
+ * corretto bug nella scrittura della durata dell'evento in write.ozone_annual_report()
+
+
 Changes in arpautils 0.8.1 [2014-10-31]
 =====================================
  * gestione piu' flessibile delle flag di validazione in dbqa.get.datasens()
@@ -12,7 +17,7 @@ Changes in arpautils 0.7.1 [2014-10-24]
 =====================================
  * aggiunto Sys.setenv(TZ="BST") in dbqa.config()
  * standardizzata sintassi delle stringhe che definiscono i formati data/ora SQL
- * aggiunte le funzioni prepare.ozone_annual_report, calculate.ozone_annual_report
+ * aggiunte le funzioni prepare.ozone_annual_report(), calculate.ozone_annual_report()
 
 
 Changes in arpautils 0.6.1 [2014-10-10]
