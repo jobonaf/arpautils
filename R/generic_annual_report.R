@@ -71,14 +71,21 @@ calculate.annual_report <- function(data,
     annual.mean      <- mean(yDat, na.rm=T)
     annual.nValid    <- sum(as.numeric(!is.na(yDat)))
     annual.percValid <- annual.nValid/length(yDat)*100
+    if(hourly) annual.nExpected <- length(yDatR)/24*23
+    if(daily)  annual.nExpected <- length(yDatR)-4
+    annual.efficiency <- annual.nValid/annual.nExpected*100
     
-    annual.report <- data.frame(annual.mean     =annual.mean,
-                                annual.nValid   =annual.nValid,
-                                annual.percValid=annual.percValid)
+    annual.report <- data.frame(annual.mean      =annual.mean,
+                                annual.nValid    =annual.nValid,
+                                annual.percValid =annual.percValid,     
+                                annual.nExpected =annual.nExpected,
+                                annual.efficiency=annual.efficiency)
   } else {
-    annual.report <- data.frame(annual.mean     =NA,
-                                annual.nValid   =NA,
-                                annual.percValid=NA)
+    annual.report <- data.frame(annual.mean      =NA,
+                                annual.nValid    =NA,
+                                annual.percValid =NA,     
+                                annual.nExpected =NA,
+                                annual.efficiency=NA)
   }
   
   ## calcola superamenti giornalieri senza arrotondare

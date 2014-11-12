@@ -1,7 +1,7 @@
 \name{ozone_annual_report}
 \alias{prepare.ozone_annual_report}
 \alias{calculate.ozone_annual_report}
-%\alias{write.ozone_annual_report}
+\alias{write.ozone_annual_report}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -14,7 +14,7 @@ Funzioni per produrre le statistiche annuali per una singola stazione di ozono: 
 \usage{
 prepare.ozone_annual_report(con, id.staz, year=NULL, ...)
 calculate.ozone_annual_report(data)
-%write.ozone_annual_report(con, OAR, empty=F, verbose=F, ...)
+write.ozone_annual_report(con, OAR, verbose=F, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -1,3 +1,9 @@
+Changes in arpautils 0.8.3 [2014-11-12]
+=====================================
+ * migliorata gestione delle flag di validazione in dbqa.get.datasens()
+ * completata la gestione delle statistiche annuali ozono con write.ozone_annual_report()
+
+
 Changes in arpautils 0.8.2 [2014-11-10]
 =====================================
  * corretto bug nella scrittura della durata dell'evento in write.ozone_annual_report()

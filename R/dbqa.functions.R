@@ -73,7 +73,7 @@ dbqa.get.datasens <- function(con,
       CF <- c(CF,cf)
     }        
     if(flg.null) {
-      cf <- "(FLG_A IS NULL)"
+      cf <- "(FLG_4 IS NULL)"
       CF <- c(CF,cf)
     }
     crit <- c(crit,paste("(",paste(CF, collapse=" OR "),")",sep=""))

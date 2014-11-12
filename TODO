@@ -1,5 +1,5 @@
  * funzioni e procedure per statistiche annuali:
-  * ozono
+  * ozono (NB controllare su base mensile la validita' per conteggiare i superamenti del 120!)
   * PM10, PM2.5
   * SO2, NO2, NOx, CO, benzene
   * Pb, As, Cd, Ni, benzo(a)pyrene

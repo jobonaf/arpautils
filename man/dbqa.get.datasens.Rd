@@ -32,15 +32,15 @@ codice numerico dell'inquinante
 }
   \item{flg}{
 %%     ~~Describe \code{flg} here~~
-valore (o valori) accettati per la flag di qualita'. Se \code{NULL} non viene posta alcuna condizione includente sulla flag
+valore (o valori) accettati per la flag di qualita' FLG_A. Se \code{NULL} non viene posta alcuna condizione includente sulla flag
 }
   \item{flg.excl}{
 %%     ~~Describe \code{flg} here~~
-valore (o valori) non accettati per la flag di qualita'. Se \code{NULL} non viene posta alcuna condizione escludente sulla flag
+valore (o valori) non accettati per la flag di qualita' FLG_A. Se \code{NULL} non viene posta alcuna condizione escludente sulla flag
 }
   \item{flg.null}{
 %%     ~~Describe \code{flg} here~~
-se \code{TRUE} vengono estratti anche record con valori di flag pari a 'NULL' nel DB, cioè non sottoposti ad alcuna validazione
+se \code{TRUE} vengono estratti anche record con valori di flag FLG_4 pari a 'NULL' nel DB, cioè non ancora sottoposti a validazione quotidiana
 }
   \item{verbose}{
 %%     ~~Describe \code{flg} here~~

@@ -57,6 +57,10 @@ calculate.ozone_annual_report <- function(data){
     cumul.nexc.180 <- sum(as.numeric(yDatR>180), na.rm=T)
     ## - no. sup. orari soglia 240 da inizio anno (valori arrotondati)
     cumul.nexc.240 <- sum(as.numeric(yDatR>240), na.rm=T)
+    ## no. di dati orari validi
+    annual.nValid     <- sum(as.numeric(!is.na(yDatR)))
+    annual.nExpected  <- length(yDatR)/24*23
+    annual.efficiency <- annual.nValid/annual.nExpected*100
     ## - no. sup. giorn. soglia 120 da inizio anno
     cumul.nexc.120 <- sum(as.numeric(max.ave.8h>120), na.rm=T)
     ## - AOT40 annuale vegetazione
@@ -75,23 +79,49 @@ calculate.ozone_annual_report <- function(data){
     dum <- aot(forestDat, forestHour, threshold=80, estimate=T, hr.min=8, hr.max=19)
     aot40.forest <- round(dum$Aot)
     aot40.forest.PercValid <- dum$PercValid
+    ## conta dati validi nella fascia oraria di interesse
+    ## per il periodo aprile-settembre
+    hr.min=8
+    hr.max=19
+    mo.necess=4:9
+    yTime  <- index(yDat)
+    yValid <- !is.na(yDat)
+    yHr <- Hour(yTime)
+    yMo <- Month(yTime)
+    in.hr <- yHr>=hr.min & yHr<=hr.max
+    yValid0820 <- yValid & in.hr
+    mValid     <- tapply(X=yValid0820, INDEX=yMo, FUN=sum)
+    ## calcola efficienza mensile per i superamenti
+    mExpected  <- tapply(X=in.hr,      INDEX=yMo, FUN=sum)
+    mEfficiency<- mValid/mExpected*100
+    ## conta quanti mesi estivi soddisfacenti ci sono
+    validMonths<- mEfficiency>=90 & unique(yMo) %in% mo.necess
+    nValidMonths<- sum(as.numeric(validMonths), na.rm=T)
     
     annual.report <- data.frame(cumul.nexc.180=cumul.nexc.180,
                                 cumul.nexc.240=cumul.nexc.240,
                                 cumul.nexc.120=cumul.nexc.120,
+                                annual.nValid    =annual.nValid,     
+                                annual.nExpected =annual.nExpected,
+                                annual.efficiency=annual.efficiency,
                                 aot40.veget=           aot40.veget,
                                 aot40.veget.PercValid= aot40.veget.PercValid,
                                 aot40.forest=          aot40.forest,
-                                aot40.forest.PercValid=aot40.forest.PercValid)
+                                aot40.forest.PercValid=aot40.forest.PercValid,
+                                nValidMonths=nValidMonths)
     
   } else {
-    annual.report <- data.frame(cumul.nexc.180=        NA,
-                                cumul.nexc.240=        NA,
-                                cumul.nexc.120=        NA,
+    annual.report <- data.frame(cumul.nexc.180=NA,
+                                cumul.nexc.240=NA,
+                                cumul.nexc.120=NA,
+                                annual.nValid    =NA,     
+                                annual.nExpected =NA,
+                                annual.efficiency=NA,
                                 aot40.veget=           NA,
                                 aot40.veget.PercValid= NA,
                                 aot40.forest=          NA,
-                                aot40.forest.PercValid=NA)
+                                aot40.forest.PercValid=NA,
+                                nValidMonths=NA)
   }
   
   ## 3) identificazione eventi
@@ -130,6 +160,114 @@ calculate.ozone_annual_report <- function(data){
   return(Out)
 }
 
+write.ozone_annual_report <- function(con,
+                                     OAR,
+                                     verbose=F,
+                                     ...) {
+  
+  id.param = 7 # Ozono
+  
+  ## elimina record del GIORNO-CONFIG_STAZ-PARAMETRO
+  dbqa.delete(con=con, tab="WEB_STAT",
+              keys=c("to_char(GIORNO,'YYYY-MM-DD')",
+                     "ID_CONFIG_STAZ",
+                     "ID_PARAMETRO"),
+              values=c(paste("'",format(OAR$first.time,"%Y-%m-%d"),"'",sep=""),
+                       OAR$id.staz,
+                       id.param),
+              verbose=verbose)
+  dbCommit(con)
+  date4db <- function(x) {format(x,format="%Y-%m-%d %H:%M")}
+  prov <- unlist(dbGetQuery(con,
+                            paste("select COD_PRV from AA_ARIA.T$01$CONFIG_STAZIONI",
+                                  "where ID_CONFIG_STAZ=",OAR$id.staz)))
+  ## inserisce elaborazioni annuali floating
+  dbqa.insert(con=con, tab="WEB_STAT",
+              values=data.frame(GIORNO         =date4db(OAR$first.time),
+                                ID_CONFIG_STAZ =OAR$id.staz,
+                                COD_PRV        =prov,
+                                ID_PARAMETRO   =id.param,
+                                ID_ELABORAZIONE=c(33,34), # AOT40 vegetazione,foreste
+                                ID_EVENTO      =0,
+                                V_ELAB_F       =c(OAR$annual.report$aot40.veget,
+                                                  OAR$annual.report$aot40.forest),
+                                TS1_V1_ELAB    =c(date4db(OAR$first.time),
+                                                  date4db(OAR$first.time)),
+                                TS2_V1_ELAB    =c(date4db(OAR$last.time),
+                                                  date4db(OAR$last.time)),
+                                TS_INS         =date4db(Sys.time()),
+                                FLG_ELAB       =c(as.numeric(OAR$annual.report$aot40.veget.PercValid>=90),
+                                                  as.numeric(OAR$annual.report$aot40.forest.PercValid>=90)),
+                                row.names = NULL),
+              to_date=c(1,8,9,10),
+              verbose=verbose,
+              ...)
+  ## inserisce elaborazioni annuali integer
+  dbqa.insert(con=con, tab="WEB_STAT",
+              values=data.frame(GIORNO         =date4db(OAR$first.time),
+                                ID_CONFIG_STAZ =OAR$id.staz,
+                                COD_PRV        =prov,
+                                ID_PARAMETRO   =id.param,
+                                ID_ELABORAZIONE=c(128,85,89), #n.ore sup.120,180,240
+                                ID_EVENTO      =0,
+                                V_ELAB_I       =c(OAR$annual.report$cumul.nexc.120,
+                                                  OAR$annual.report$cumul.nexc.180,
+                                                  OAR$annual.report$cumul.nexc.240),
+                                TS1_V1_ELAB    =date4db(OAR$first.time),
+                                TS2_V1_ELAB    =date4db(OAR$last.time),
+                                TS_INS         =date4db(Sys.time()),
+                                FLG_ELAB       =as.numeric(OAR$annual.report$nValidMonths>=5),
+                                row.names = NULL),
+              to_date=c(1,8,9,10),
+              verbose=verbose,
+              ...)
+  ## inserisce elaborazioni di evento floating
+  if(!is.null(unlist(OAR$events))){
+    nev180 <- ifelse(is.data.frame(OAR$events$exc.180),
+                     nrow(OAR$events$exc.180),
+                     length(OAR$events$exc.180))
+    nev240 <- ifelse(is.data.frame(OAR$events$exc.240),
+                     nrow(OAR$events$exc.240),
+                     length(OAR$events$exc.240))
+    if(nev180>0){
+      dbqa.insert(con=con, tab="WEB_STAT",
+                  values=data.frame(GIORNO         =date4db(OAR$first.time),
+                                    ID_CONFIG_STAZ =OAR$id.staz,
+                                    COD_PRV        =prov,
+                                    ID_PARAMETRO   =id.param,
+                                    ID_ELABORAZIONE=rep(83,nev180), #conc.max evento 180
+                                    ID_EVENTO      =0:(nev180-1),
+                                    V_ELAB_F       =OAR$events$exc.180$max,
+                                    TS1_V1_ELAB    =date4db(OAR$events$exc.180$start.time),
+                                    TS2_V1_ELAB    =date4db(OAR$events$exc.180$start.time+
+                                                              3600*OAR$events$exc.180$duration),
+                                    TS_INS         =date4db(Sys.time()),
+                                    FLG_ELAB       =1,
+                                    row.names = NULL),
+                  to_date=c(1,8,9,10),
+                  verbose=verbose,
+                  ...)          
+    }
+    if(nev240>0){
+      dbqa.insert(con=con, tab="WEB_STAT",
+                  values=data.frame(GIORNO         =date4db(OAR$first.time),
+                                    ID_CONFIG_STAZ =OAR$id.staz,
+                                    COD_PRV        =prov,
+                                    ID_PARAMETRO   =id.param,
+                                    ID_ELABORAZIONE=rep(86,nev240), #conc.max evento 240
+                                    ID_EVENTO      =0:(nev240-1),
+                                    V_ELAB_F       =OAR$events$exc.240$max,
+                                    TS1_V1_ELAB    =date4db(OAR$events$exc.240$start.time),
+                                    TS2_V1_ELAB    =date4db(OAR$events$exc.240$start.time+
+                                                              3600*OAR$events$exc.240$duration),
+                                    TS_INS         =date4db(Sys.time()),
+                                    FLG_ELAB       =1,
+                                    row.names = NULL),
+                  to_date=c(1,8,9,10),
+                  verbose=verbose,
+                  ...)          
+    }
+  }
+}
 
-## DA SCRIVERE DOPO PREDISPOSIZIONE TABELLA SU DB
-##write.ozone_annual_report <- function()
+
