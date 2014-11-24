@@ -5,6 +5,6 @@
   * Pb, As, Cd, Ni, benzo(a)pyrene
  * funzioni e procedure per statistiche mensili
  * controllare completa conformità all'Istruzione Operativa http://aggiornati.arpa.emr.it/qualita/documento.aspx?id=34458
- * gestire LOD
+ * gestire LOD (<LOD nelle elaborazioni)
  * funzioni e procedure per IQA
  * integrazione con openair per calcolo trend, giorni tipo, settimana tipo

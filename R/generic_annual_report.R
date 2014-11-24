@@ -49,7 +49,11 @@ prepare.annual_report <- function(con,
 
 calculate.annual_report <- function(data,
                                     thr.daily.ave=NULL,
-                                    thr.ave8h.max=NULL){
+                                    thr.ave8h.max=NULL,
+                                    thr.hourly=NULL,
+                                    thr.multihourly=NULL,
+                                    NH=3,
+                                    critical.months=NULL){
   
   Dat <- data$Dat
   
@@ -88,7 +92,34 @@ calculate.annual_report <- function(data,
                                 annual.efficiency=NA)
   }
   
-  ## calcola superamenti giornalieri senza arrotondare
+  ## calcola media nei mesi prescelti
+  if(!is.null(critical.months)){
+    if(!is.null(yDat)){
+      cmDat <- yDat[as.numeric(Months(yTime)) %in% critical.months]
+      critmonths.mean      <- mean(cmDat, na.rm=T)
+      critmonths.nValid    <- sum(as.numeric(!is.na(cmDat)))
+      critmonths.percValid <- critmonths.nValid/length(cmDat)*100
+      if(hourly) critmonths.nExpected <- length(cmDat)/24*23
+      if(daily)  critmonths.nExpected <- length(cmDat)-(length(critical.months)%/%3) # esige un dato in meno a trimestre
+      critmonths.efficiency <- critmonths.nValid/critmonths.nExpected*100
+      
+      annual.report <- data.frame(annual.report,
+                                  critmonths.mean      =critmonths.mean,
+                                  critmonths.nValid    =critmonths.nValid,
+                                  critmonths.percValid =critmonths.percValid,     
+                                  critmonths.nExpected =critmonths.nExpected,
+                                  critmonths.efficiency=critmonths.efficiency)
+    }else{
+      annual.report <- data.frame(annual.report,
+                                  critmonths.mean      =NA,
+                                  critmonths.nValid    =NA,
+                                  critmonths.percValid =NA,     
+                                  critmonths.nExpected =NA,
+                                  critmonths.efficiency=NA)
+    }
+  }
+  
+  ## calcola superamenti giornalieri
   if(!is.null(thr.daily.ave)){
     if(!is.null(Dat)){
       if(hourly) dDat <- stat.period(x=yDat,period=yday,necess=18,FUN=mean)
@@ -109,7 +140,7 @@ calculate.annual_report <- function(data,
     }
   }
   
-  ## calcola superamenti giornalieri senza arrotondare
+  ## calcola superamenti giornalieri del max della media 8h
   if(!is.null(thr.ave8h.max)){
     if(!is.null(Dat)){
       if(hourly) ave.8h <- round(mean.window(x=as.vector(Dat),k=8,necess=6))
@@ -130,7 +161,49 @@ calculate.annual_report <- function(data,
                                   ave8h.percValid=NA)
     }
   }
-    
+  
+  ## calcola dati validi orari
+  if(!is.null(thr.hourly) | !is.null(thr.multihourly)){
+    if(!is.null(yDat) & hourly){
+      hourly.nValid    <- sum(as.numeric(!is.na(yDat)))
+      hourly.percValid <- hourly.nValid/length(yDat)*100
+      
+      annual.report <- data.frame(annual.report,
+                                  hourly.nValid   =hourly.nValid,
+                                  hourly.percValid=hourly.percValid)
+    }else{
+      annual.report <- data.frame(annual.report,
+                                  hourly.nValid   =NA,
+                                  hourly.percValid=NA)
+    }
+  }
+  
+  ## conta superamenti orari
+  if(!is.null(thr.hourly)){
+    if(!is.null(yDat) & hourly){
+      hourly.nexc <- sum(as.numeric(yDat>thr.hourly), na.rm=T)
+      
+      annual.report <- data.frame(annual.report,
+                                  hourly.nexc=hourly.nexc)
+    }else{
+      annual.report <- data.frame(annual.report,
+                                  hourly.nexc=NA)
+    }
+  }
+  
+  ## conta superamenti orari per piu' di NH ore consecutive
+  if(!is.null(thr.multihourly)){
+    if(!is.null(yDat) & hourly){
+      multihourly.exc <- detect.event(yDat,thr.multihourly)$duration > NH
+      multihourly.nexc <- sum(as.numeric(multihourly.exc), na.rm=T)
+      
+      annual.report <- data.frame(annual.report,
+                                  multihourly.nexc=multihourly.nexc)
+    }else{
+      annual.report <- data.frame(annual.report,
+                                  multihourly.nexc=NA)
+    }
+  }
   Out <- list(annual.report=annual.report,
               id.staz=data$id.staz,
               first.time=yTime[1],
