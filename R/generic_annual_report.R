@@ -7,9 +7,9 @@
 
 prepare.annual_report <- function(con,
                                   id.staz,
-                                  id.param=7,
+                                  id.param,
                                   year=NULL,
-                                  tstep="d",
+                                  tstep,
                                   ...){
   ## 0) operazioni preliminari
   if(is.null(year)) {
@@ -48,6 +48,7 @@ prepare.annual_report <- function(con,
 }
 
 calculate.annual_report <- function(data,
+                                    id.param,
                                     thr.daily.ave=NULL,
                                     thr.ave8h.max=NULL,
                                     thr.hourly=NULL,
@@ -71,12 +72,21 @@ calculate.annual_report <- function(data,
     daily  <- difftime(Time[2],Time[1],units="days")==1
     if(!hourly & !daily) stop("cannot manage timestep!")
     
-    ## calcola media annua senza arrotondamenti
-    annual.mean      <- mean(yDat, na.rm=T)
+    ## numero di giorni e ore nell'anno
+    ndays  <- Ndays.in.year(Year(yTime[1]))
+    nhours <- ndays*24
+    
+    ## calcola media annua con arrotondamento finale
+    annual.mean      <- dbqa.round(mean(yDat, na.rm=T),id.param=id.param)
     annual.nValid    <- sum(as.numeric(!is.na(yDat)))
-    annual.percValid <- annual.nValid/length(yDat)*100
-    if(hourly) annual.nExpected <- length(yDatR)/24*23
-    if(daily)  annual.nExpected <- length(yDatR)-4
+    if(hourly) {
+      annual.percValid <- annual.nValid/nhours*100
+      annual.nExpected <- length(yDatR)/24*23
+    }
+    if(daily) {
+      annual.percValid <- annual.nValid/ndays*100
+      annual.nExpected <- ndays-4 
+    }
     annual.efficiency <- annual.nValid/annual.nExpected*100
     
     annual.report <- data.frame(annual.mean      =annual.mean,
@@ -95,8 +105,8 @@ calculate.annual_report <- function(data,
   ## calcola media nei mesi prescelti
   if(!is.null(critical.months)){
     if(!is.null(yDat)){
-      cmDat <- yDat[as.numeric(Months(yTime)) %in% critical.months]
-      critmonths.mean      <- mean(cmDat, na.rm=T)
+      cmDat <- yDat[as.numeric(Month(yTime)) %in% critical.months]
+      critmonths.mean      <- dbqa.round(mean(cmDat, na.rm=T),id.param)
       critmonths.nValid    <- sum(as.numeric(!is.na(cmDat)))
       critmonths.percValid <- critmonths.nValid/length(cmDat)*100
       if(hourly) critmonths.nExpected <- length(cmDat)/24*23
@@ -126,7 +136,7 @@ calculate.annual_report <- function(data,
       if(daily)  dDat <- Dat
       daily.nexc      <- sum(as.numeric(dDat>thr.daily.ave), na.rm=T)
       daily.nValid    <- sum(as.numeric(!is.na(dDat)))
-      daily.percValid <- daily.nValid/length(dDat)*100
+      daily.percValid <- daily.nValid/ndays*100
       
       annual.report <- data.frame(annual.report,
                                   daily.nexc     =daily.nexc,
@@ -148,7 +158,7 @@ calculate.annual_report <- function(data,
       max.ave.8h <- stat.period(x=ave.8h,period=day,necess=18,FUN=max)[-1]
       ave8h.nexc      <- sum(as.numeric(max.ave.8h>thr.ave8h.max), na.rm=T)
       ave8h.nValid    <- sum(as.numeric(!is.na(max.ave.8h)))
-      ave8h.percValid <- ave8h.nValid/length(max.ave.8h)*100
+      ave8h.percValid <- ave8h.nValid/ndays*100
       
       annual.report <- data.frame(annual.report,
                                   ave8h.nexc     =ave8h.nexc,
@@ -166,7 +176,7 @@ calculate.annual_report <- function(data,
   if(!is.null(thr.hourly) | !is.null(thr.multihourly)){
     if(!is.null(yDat) & hourly){
       hourly.nValid    <- sum(as.numeric(!is.na(yDat)))
-      hourly.percValid <- hourly.nValid/length(yDat)*100
+      hourly.percValid <- hourly.nValid/nhours*100
       
       annual.report <- data.frame(annual.report,
                                   hourly.nValid   =hourly.nValid,
@@ -212,5 +222,109 @@ calculate.annual_report <- function(data,
 }
 
 
-## DA SCRIVERE DOPO PREDISPOSIZIONE TABELLA SU DB
-##write.annual_report <- function()
+write.annual_report <- function(con,
+                                AR,
+                                id.param,
+                                verbose=F,
+                                ...) {
+  
+  ## elimina record del GIORNO-CONFIG_STAZ-PARAMETRO
+  dbqa.delete(con=con, tab="WEB_STAT",
+              keys=c("to_char(GIORNO,'YYYY-MM-DD')",
+                     "ID_CONFIG_STAZ",
+                     "ID_PARAMETRO"),
+              values=c(paste("'",format(AR$first.time,"%Y-%m-%d"),"'",sep=""),
+                       AR$id.staz,
+                       id.param),
+              verbose=verbose)
+  dbCommit(con)
+  ## preparativi
+  date4db <- function(x) {format(x,format="%Y-%m-%d %H:%M")}
+  prov <- unlist(dbGetQuery(con,
+                            paste("select COD_PRV from AA_ARIA.T$01$CONFIG_STAZIONI",
+                                  "where ID_CONFIG_STAZ=",AR$id.staz)))
+  
+  ## inserisce media annua
+  id.elab=30
+  dbqa.insert(con=con, tab="WEB_STAT",
+              values=data.frame(GIORNO         =date4db(AR$first.time),
+                                ID_CONFIG_STAZ =AR$id.staz,
+                                COD_PRV        =prov,
+                                ID_PARAMETRO   =id.param,
+                                ID_ELABORAZIONE=id.elab,
+                                ID_EVENTO      =0,
+                                V_ELAB_F       =AR$annual.report$annual.mean,
+                                TS1_V1_ELAB    =date4db(AR$first.time),
+                                TS2_V1_ELAB    =date4db(AR$last.time),
+                                TS_INS         =date4db(Sys.time()),
+                                FLG_ELAB       =as.numeric(AR$annual.report$annual.efficiency>=90),
+                                row.names = NULL),
+              to_date=c(1,8,9,10),
+              verbose=verbose,
+              ...)
+  
+  ## inserisce numero superamenti della media giornaliera (PM10 o SO2)
+  if(id.param %in% c(1,5) & ("daily.nexc" %in% colnames(AR$annual.report))) { 
+    if(id.param==1) id.elab=122
+    if(id.param==5) id.elab=130
+    dbqa.insert(con=con, tab="WEB_STAT",
+                values=data.frame(GIORNO         =date4db(AR$first.time),
+                                  ID_CONFIG_STAZ =AR$id.staz,
+                                  COD_PRV        =prov,
+                                  ID_PARAMETRO   =id.param,
+                                  ID_ELABORAZIONE=id.elab,
+                                  ID_EVENTO      =0,
+                                  V_ELAB_I       =AR$annual.report$daily.nexc,
+                                  TS1_V1_ELAB    =date4db(AR$first.time),
+                                  TS2_V1_ELAB    =date4db(AR$last.time),
+                                  TS_INS         =date4db(Sys.time()),
+                                  FLG_ELAB       =as.numeric(AR$annual.report$annual.efficiency>=90),
+                                  row.names = NULL),
+                to_date=c(1,8,9,10),
+                verbose=verbose,
+                ...)
+  }
+  
+  ## inserisce numero superamenti della media oraria (NO2 o SO2)
+  if(id.param %in% c(1,8) & ("hourly.nexc" %in% colnames(AR$annual.report))) { 
+    if(id.param==1) id.elab=121
+    if(id.param==8) id.elab=119
+    dbqa.insert(con=con, tab="WEB_STAT",
+                values=data.frame(GIORNO         =date4db(AR$first.time),
+                                  ID_CONFIG_STAZ =AR$id.staz,
+                                  COD_PRV        =prov,
+                                  ID_PARAMETRO   =id.param,
+                                  ID_ELABORAZIONE=id.elab,
+                                  ID_EVENTO      =0,
+                                  V_ELAB_I       =AR$annual.report$hourly.nexc,
+                                  TS1_V1_ELAB    =date4db(AR$first.time),
+                                  TS2_V1_ELAB    =date4db(AR$last.time),
+                                  TS_INS         =date4db(Sys.time()),
+                                  FLG_ELAB       =as.numeric(AR$annual.report$annual.efficiency>=90),
+                                  row.names = NULL),
+                to_date=c(1,8,9,10),
+                verbose=verbose,
+                ...)
+  }
+  
+  ## inserisce numero superamenti del max giorn.media 8h (CO)
+  if(id.param %in% c(10) & ("ave8h.nexc" %in% colnames(AR$annual.report))) { 
+    if(id.param==10) id.elab=118
+    dbqa.insert(con=con, tab="WEB_STAT",
+                values=data.frame(GIORNO         =date4db(AR$first.time),
+                                  ID_CONFIG_STAZ =AR$id.staz,
+                                  COD_PRV        =prov,
+                                  ID_PARAMETRO   =id.param,
+                                  ID_ELABORAZIONE=id.elab,
+                                  ID_EVENTO      =0,
+                                  V_ELAB_I       =AR$annual.report$ave8h.nexc,
+                                  TS1_V1_ELAB    =date4db(AR$first.time),
+                                  TS2_V1_ELAB    =date4db(AR$last.time),
+                                  TS_INS         =date4db(Sys.time()),
+                                  FLG_ELAB       =as.numeric(AR$annual.report$annual.efficiency>=90),
+                                  row.names = NULL),
+                to_date=c(1,8,9,10),
+                verbose=verbose,
+                ...)
+  }
+}

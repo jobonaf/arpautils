@@ -14,6 +14,13 @@ Ndays  <- function(x,tz="BST") length(unique(Ymd(x,tz=tz)))
 
 Nmonths<- function(x,tz="BST") length(unique(Ym(x,tz=tz)))
 
+Ndays.in.year <- function(year,tz="BST") {
+  nd <- length(seq(as.POSIXct(paste(year,"-01-01",sep=""),tz=tz),
+                   as.POSIXct(paste(year,"-12-31",sep=""),tz=tz),
+                   by="1 days"))
+  return(nd)
+}
+
 squeeze<- function(x) {
   if(length(x)==0) {
     out <- "-"

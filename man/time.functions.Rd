@@ -7,6 +7,7 @@
 \alias{YQ}
 \alias{Ndays}
 \alias{Nmonths}
+\alias{Ndays.in.year}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -25,12 +26,15 @@ Ym(x, tz = "BST")
 YQ(x, tz = "BST")
 Ndays(x, tz = "BST")
 Nmonths(x, tz = "BST")
+Ndays.in.year(year, tz = "BST")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-%%     ~~Describe \code{x} here~~
-serie temporale di tipo \code{xts}
+vettore di date \code{POSIXct}
+}
+  \item{year}{
+anno
 }
   \item{tz}{
 %%     ~~Describe \code{tz} here~~

@@ -33,9 +33,6 @@ dati estratti da \code{prepare.ozone_annual_report}
   \item{OAR}{
 lista di \code{data.frame} prodotta da \code{calculate.ozone_annual_report} (vedi Value)
 }
-  \item{empty}{
-svuota tutta la tabella del DB prima di scriverci
-}
   \item{verbose}{
 scrive a video alcune informazioni utili per il debug
 }

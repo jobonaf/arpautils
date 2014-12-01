@@ -50,6 +50,11 @@ calculate.ozone_annual_report <- function(data){
     yTime <- index(yDat)
     yday <- Ymd(yTime)
     yDatR <- round(as.vector(yDat)) # solo dati ultimo anno, arrotondati
+    
+    ## numero di giorni e ore nell'anno
+    ndays  <- Ndays.in.year(Year(yTime[1]))
+    nhours <- ndays*24
+
     # - max media mobile 8h (con arrotondamento)
     ave.8h <- round(mean.window(x=as.vector(Dat),k=8,necess=6))
     max.ave.8h <- stat.period(x=ave.8h,period=day,necess=18,FUN=max)[-1]
@@ -59,7 +64,7 @@ calculate.ozone_annual_report <- function(data){
     cumul.nexc.240 <- sum(as.numeric(yDatR>240), na.rm=T)
     ## no. di dati orari validi
     annual.nValid     <- sum(as.numeric(!is.na(yDatR)))
-    annual.nExpected  <- length(yDatR)/24*23
+    annual.nExpected  <- nhours/24*23
     annual.efficiency <- annual.nValid/annual.nExpected*100
     ## - no. sup. giorn. soglia 120 da inizio anno
     cumul.nexc.120 <- sum(as.numeric(max.ave.8h>120), na.rm=T)
@@ -177,6 +182,7 @@ write.ozone_annual_report <- function(con,
                        id.param),
               verbose=verbose)
   dbCommit(con)
+  ## preparativi
   date4db <- function(x) {format(x,format="%Y-%m-%d %H:%M")}
   prov <- unlist(dbGetQuery(con,
                             paste("select COD_PRV from AA_ARIA.T$01$CONFIG_STAZIONI",

@@ -292,3 +292,14 @@ dbqa.delete <- function(con, tab, keys, values, verbose=F) {
     dbGetQuery(conn=con, statement=delStr)    
   }
 }
+
+# arrotondamenti in visualizzazione, secondo indicazioni GdL
+dbqa.round <- function(x,id.param) {
+  #                              O3 PM10 PM2.5 NO2  NOx SO2 C6H6   CO  BaP   As   Cd   Ni   Pb
+  dat <- data.frame(idparam=c(   7,   5, 111,   8,   9,   1,  20,  10,  29,  18,  14,  15,  12),
+                    digits= c(   0,   0,   0,   0,   0,   0,   1,   1,   4,   3,   3,   3,   6))
+  idx <- which(id.param==dat$idparam)
+  dig <- dat$digits[idx]
+  out <- round(x,dig)
+  return(out)
+}

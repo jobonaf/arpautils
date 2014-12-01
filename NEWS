@@ -1,6 +1,14 @@
+Changes in arpautils 0.8.5 [2014-12-01]
+=====================================
+ * aggiunta dbqa.round() per gestire gli arrotondamenti come prescritto dal GdL
+ * aggiunta write.annual_report()
+ * aggiunta Ndays.in.year()
+ * corretto bug nel calcolo dell'efficienza
+
+
 Changes in arpautils 0.8.4 [2014-11-24]
 =====================================
- * aggiunti a calculate.generic_annual_report(): superamenti orari, orari consecutivi, media di mesi selezionati, calcolo dati attesi ed efficienza
+ * aggiunti a calculate.annual_report(): superamenti orari, orari consecutivi, media di mesi selezionati, calcolo dati attesi ed efficienza
 
 
 Changes in arpautils 0.8.3 [2014-11-12]

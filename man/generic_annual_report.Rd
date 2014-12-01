@@ -1,7 +1,7 @@
 \name{generic_annual_report}
 \alias{prepare.annual_report}
 \alias{calculate.annual_report}
-%\alias{write.annual_report}
+\alias{write.annual_report}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -12,11 +12,11 @@ Funzioni per produrre statistiche annuali (una stazione)
 Funzioni per produrre le statistiche annuali tipiche (media annua, superamenti giornalieri della media e del max della media mobile su 8h) per una singola stazione: estrazione, calcoli, scrittura su DB.
 }
 \usage{
-prepare.annual_report(con, id.staz, id.param, year=NULL, tstep="d", ...)
-calculate.annual_report(data, thr.daily.ave=NULL, thr.ave8h.max=NULL,
+prepare.annual_report(con, id.staz, id.param, year=NULL, tstep, ...)
+calculate.annual_report(data, id.param, thr.daily.ave=NULL, thr.ave8h.max=NULL,
                         thr.hourly=NULL, thr.multihourly=NULL, NH=3,
                         critical.months=NULL)
-%write.annual_report(con, AR, empty=F, verbose=F, ...)
+write.annual_report(con, AR, id.param, verbose=F, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -58,9 +58,6 @@ vettore numerico dei mesi su cui calcolare la media di periodo (p.es. \code{c(1:
 }
   \item{AR}{
 lista di \code{data.frame} prodotta da \code{calculate.annual_report} (vedi Value)
-}
-  \item{empty}{
-svuota tutta la tabella del DB prima di scriverci
 }
   \item{verbose}{
 scrive a video alcune informazioni utili per il debug

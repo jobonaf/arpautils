@@ -1,35 +1,39 @@
-\name{shift}
-\alias{shift}
+\name{dbqa.round}
+\alias{dbqa.round}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-shifta un vettore
+arrotonda concentrazioni
 }
 \description{
-shifta un vettore 
+arrotonda concentrazioni in visualizzazione, secondo le indicazioni del Gruppo di Lavoro (Istruzione Operativa)
 }
 \usage{
-shift(x, k)
+dbqa.round(x, id.param)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-vettore da shiftare
+  valore da arrotondare
 }
-  \item{k}{
-passi di shift
+  \item{id.param}{
+  identificativo del parametro nel DB
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-vettore shiftato
+%%  ~Describe the value returned
+%%  If it is a LIST, use
+%%  \item{comp1 }{Description of 'comp1'}
+%%  \item{comp2 }{Description of 'comp2'}
+%% ...
 }
 \references{
 %% ~put references to the literature/web site here ~
 }
 \author{
-G.Bonafe'
+%%  ~~who you are~~
 }
 \note{
 %%  ~~further notes~~
@@ -41,10 +45,13 @@ G.Bonafe'
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-values <- runif(n=10)
-values
-shift(values, 2)
-shift(values, -3)
+# concentrazioni casuali tra 0 e 50
+x <- runif(n=100, min=0, max=50)
+dbqa.round(x,7)  # come fosse ozono
+dbqa.round(x,14) # come fosse cadmio
+\dontrun{
+dbqa.round(x,17) # come fosse antani
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
