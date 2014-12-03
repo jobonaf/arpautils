@@ -3,6 +3,7 @@
   * PM10, PM2.5
   * SO2, NO2, NOx, CO, benzene
   * Pb, As, Cd, Ni, benzo(a)pyrene
+ * scrivere efficienza su WEB_ELAB (annuale, mensile)
  * generic_annual_report.R: correggere calcolo giorni attesi nei mesi critici
  * funzioni e procedure per statistiche mensili
  * controllare completa conformità all'Istruzione Operativa http://aggiornati.arpa.emr.it/qualita/documento.aspx?id=34458

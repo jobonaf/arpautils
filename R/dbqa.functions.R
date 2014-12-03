@@ -54,7 +54,7 @@ dbqa.get.datasens <- function(con,
     
   }
   what <- c("TO_CHAR(d.TS_INIZIO_RIL,'YYYY-MM-DD HH24:MI') as TS_INIZIO_RIL",          ## OCCHIO CON LA DATA, CONTROLLARE
-            "d.VALORE * cs.COEFF_CONV as VALORE",
+            "d.VALORE * cs.COEFF_CONV + cs.VAL_OFFSET as VALORE",
             "d.FLG_A as FLG_A")
   crit <- c(paste("d.ID_PARAMETRO=",id.param,sep=""),
             paste("d.ID_CONFIG_SENSORE=",id.cfgsens,sep=""),
@@ -87,9 +87,10 @@ dbqa.get.datasens <- function(con,
   
   query <- simple.query(tab,what,crit)
   if(verbose)  print(query)
-#  data <- fetch(ds <- dbSendQuery(con, query, ...))
   data <- dbGetQuery(con, query, ...)
-#  data$TS_INIZIO_RIL <- as.POSIXct(data$TS_INIZIO_RIL)
+  
+  # arrotondamento in visualizzazione
+  data$VALORE <- dbqa.round(x=data$VALORE, id.param=id.param)
   return(data)
 }
 
@@ -299,7 +300,11 @@ dbqa.round <- function(x,id.param) {
   dat <- data.frame(idparam=c(   7,   5, 111,   8,   9,   1,  20,  10,  29,  18,  14,  15,  12),
                     digits= c(   0,   0,   0,   0,   0,   0,   1,   1,   4,   3,   3,   3,   6))
   idx <- which(id.param==dat$idparam)
-  dig <- dat$digits[idx]
-  out <- round(x,dig)
+  if(length(idx)==1) {
+    dig <- dat$digits[idx]
+    out <- round(x,dig)    
+  } else {
+    out <- x
+  }
   return(out)
 }

@@ -1,3 +1,11 @@
+Changes in arpautils 0.8.6 [2014-12-03]
+=====================================
+ * migliora scrittura FLG_ELAB
+ * considera VAL_OFFSET in estrazione da DB
+ * arrotonda in visualizzazione in dbqa.get.datasens
+ * tolto arrotondamento della media mobile (bug)
+
+
 Changes in arpautils 0.8.5 [2014-12-01]
 =====================================
  * aggiunta dbqa.round() per gestire gli arrotondamenti come prescritto dal GdL

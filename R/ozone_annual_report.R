@@ -55,8 +55,8 @@ calculate.ozone_annual_report <- function(data){
     ndays  <- Ndays.in.year(Year(yTime[1]))
     nhours <- ndays*24
 
-    # - max media mobile 8h (con arrotondamento)
-    ave.8h <- round(mean.window(x=as.vector(Dat),k=8,necess=6))
+    # - max media mobile 8h
+    ave.8h <- mean.window(x=as.vector(Dat),k=8,necess=6)
     max.ave.8h <- stat.period(x=ave.8h,period=day,necess=18,FUN=max)[-1]
     ## - no. sup. orari soglia 180 da inizio anno (valori arrotondati)
     cumul.nexc.180 <- sum(as.numeric(yDatR>180), na.rm=T)
@@ -202,8 +202,10 @@ write.ozone_annual_report <- function(con,
                                 TS2_V1_ELAB    =c(date4db(OAR$last.time),
                                                   date4db(OAR$last.time)),
                                 TS_INS         =date4db(Sys.time()),
-                                FLG_ELAB       =c(as.numeric(OAR$annual.report$aot40.veget.PercValid>=90),
-                                                  as.numeric(OAR$annual.report$aot40.forest.PercValid>=90)),
+                                FLG_ELAB       =c(as.numeric(!is.null(OAR$annual.report$aot40.veget.PercValid) &&
+                                                               OAR$annual.report$aot40.veget.PercValid>=90),
+                                                  as.numeric(!is.null(OAR$annual.report$aot40.forest.PercValid) &&
+                                                               OAR$annual.report$aot40.forest.PercValid>=90)),
                                 row.names = NULL),
               to_date=c(1,8,9,10),
               verbose=verbose,
@@ -222,7 +224,8 @@ write.ozone_annual_report <- function(con,
                                 TS1_V1_ELAB    =date4db(OAR$first.time),
                                 TS2_V1_ELAB    =date4db(OAR$last.time),
                                 TS_INS         =date4db(Sys.time()),
-                                FLG_ELAB       =as.numeric(OAR$annual.report$nValidMonths>=5),
+                                FLG_ELAB       =as.numeric(!is.null(OAR$annual.report$nValidMonths) &&
+                                                             OAR$annual.report$nValidMonths>=5),
                                 row.names = NULL),
               to_date=c(1,8,9,10),
               verbose=verbose,

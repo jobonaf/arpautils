@@ -65,7 +65,6 @@ calculate.annual_report <- function(data,
     yDat  <- last(Dat,'1 year') # solo dati ultimo anno
     yTime <- index(yDat)
     yday  <- Ymd(yTime)
-    yDatR <- round(as.vector(yDat)) # solo dati ultimo anno, arrotondati
     
     ## distingue dati orari-giornalieri
     hourly <- difftime(Time[2],Time[1],units="hours")==1
@@ -81,7 +80,7 @@ calculate.annual_report <- function(data,
     annual.nValid    <- sum(as.numeric(!is.na(yDat)))
     if(hourly) {
       annual.percValid <- annual.nValid/nhours*100
-      annual.nExpected <- length(yDatR)/24*23
+      annual.nExpected <- nhours/24*23
     }
     if(daily) {
       annual.percValid <- annual.nValid/ndays*100
@@ -153,7 +152,7 @@ calculate.annual_report <- function(data,
   ## calcola superamenti giornalieri del max della media 8h
   if(!is.null(thr.ave8h.max)){
     if(!is.null(Dat)){
-      if(hourly) ave.8h <- round(mean.window(x=as.vector(Dat),k=8,necess=6))
+      if(hourly) ave.8h <- mean.window(x=as.vector(Dat),k=8,necess=6)
       if(daily)  stop("cannot calculate 8h moving average for daily data!")
       max.ave.8h <- stat.period(x=ave.8h,period=day,necess=18,FUN=max)[-1]
       ave8h.nexc      <- sum(as.numeric(max.ave.8h>thr.ave8h.max), na.rm=T)
@@ -246,6 +245,8 @@ write.annual_report <- function(con,
   
   ## inserisce media annua
   id.elab=30
+  flg.elab=as.numeric(!is.null(AR$annual.report$annual.efficiency) &&
+                        AR$annual.report$annual.efficiency>=90)
   dbqa.insert(con=con, tab="WEB_STAT",
               values=data.frame(GIORNO         =date4db(AR$first.time),
                                 ID_CONFIG_STAZ =AR$id.staz,
@@ -257,7 +258,7 @@ write.annual_report <- function(con,
                                 TS1_V1_ELAB    =date4db(AR$first.time),
                                 TS2_V1_ELAB    =date4db(AR$last.time),
                                 TS_INS         =date4db(Sys.time()),
-                                FLG_ELAB       =as.numeric(AR$annual.report$annual.efficiency>=90),
+                                FLG_ELAB       =flg.elab,
                                 row.names = NULL),
               to_date=c(1,8,9,10),
               verbose=verbose,
@@ -267,6 +268,8 @@ write.annual_report <- function(con,
   if(id.param %in% c(1,5) & ("daily.nexc" %in% colnames(AR$annual.report))) { 
     if(id.param==1) id.elab=122
     if(id.param==5) id.elab=130
+    flg.elab=as.numeric(!is.null(AR$annual.report$annual.efficiency) &&
+                          AR$annual.report$annual.efficiency>=90)
     dbqa.insert(con=con, tab="WEB_STAT",
                 values=data.frame(GIORNO         =date4db(AR$first.time),
                                   ID_CONFIG_STAZ =AR$id.staz,
@@ -278,7 +281,7 @@ write.annual_report <- function(con,
                                   TS1_V1_ELAB    =date4db(AR$first.time),
                                   TS2_V1_ELAB    =date4db(AR$last.time),
                                   TS_INS         =date4db(Sys.time()),
-                                  FLG_ELAB       =as.numeric(AR$annual.report$annual.efficiency>=90),
+                                  FLG_ELAB       =flg.elab,
                                   row.names = NULL),
                 to_date=c(1,8,9,10),
                 verbose=verbose,
@@ -289,6 +292,8 @@ write.annual_report <- function(con,
   if(id.param %in% c(1,8) & ("hourly.nexc" %in% colnames(AR$annual.report))) { 
     if(id.param==1) id.elab=121
     if(id.param==8) id.elab=119
+    flg.elab=as.numeric(!is.null(AR$annual.report$annual.efficiency) &&
+                          AR$annual.report$annual.efficiency>=90)
     dbqa.insert(con=con, tab="WEB_STAT",
                 values=data.frame(GIORNO         =date4db(AR$first.time),
                                   ID_CONFIG_STAZ =AR$id.staz,
@@ -300,7 +305,7 @@ write.annual_report <- function(con,
                                   TS1_V1_ELAB    =date4db(AR$first.time),
                                   TS2_V1_ELAB    =date4db(AR$last.time),
                                   TS_INS         =date4db(Sys.time()),
-                                  FLG_ELAB       =as.numeric(AR$annual.report$annual.efficiency>=90),
+                                  FLG_ELAB       =flg.elab,
                                   row.names = NULL),
                 to_date=c(1,8,9,10),
                 verbose=verbose,
@@ -310,6 +315,8 @@ write.annual_report <- function(con,
   ## inserisce numero superamenti del max giorn.media 8h (CO)
   if(id.param %in% c(10) & ("ave8h.nexc" %in% colnames(AR$annual.report))) { 
     if(id.param==10) id.elab=118
+    flg.elab=as.numeric(!is.null(AR$annual.report$annual.efficiency) &&
+                          AR$annual.report$annual.efficiency>=90)
     dbqa.insert(con=con, tab="WEB_STAT",
                 values=data.frame(GIORNO         =date4db(AR$first.time),
                                   ID_CONFIG_STAZ =AR$id.staz,
@@ -321,7 +328,7 @@ write.annual_report <- function(con,
                                   TS1_V1_ELAB    =date4db(AR$first.time),
                                   TS2_V1_ELAB    =date4db(AR$last.time),
                                   TS_INS         =date4db(Sys.time()),
-                                  FLG_ELAB       =as.numeric(AR$annual.report$annual.efficiency>=90),
+                                  FLG_ELAB       =flg.elab,
                                   row.names = NULL),
                 to_date=c(1,8,9,10),
                 verbose=verbose,
