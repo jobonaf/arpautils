@@ -1,9 +1,10 @@
 ## Funzioni di accesso e interrogazione al DB QA
 
 ## credenziali accesso DB
-dbqa.config <- function(db_usr, db_pwd, db_name, db_tz) {
+dbqa.config <- function(db_usr, db_pwd, db_name, db_tz="BST") {
   Sys.setenv(TZ=db_tz)
   cfg <- list(db_usr=db_usr, db_pwd=db_pwd, db_name=db_name)
+  return(cfg)
 }
 
 ## funzione per connettersi al DB di qualità dell'aria Arpa ER
