@@ -46,12 +46,14 @@ dbqa.get.datasens <- function(con,
                               verbose=FALSE,
                               table="storico",
                               ...) {
+  
+  ## costruisce query
   if(table=="storico") {
     tab <- c("AA_ARIA.T$01$DATI_STORICO d",
-             "AA_ARIA.VO$01$CONFIG_SENSORI cs")    
+             "AA_ARIA.T$01$CONFIG_SENSORI cs")    
   } else {
     tab <- c("AA_ARIA.T$01$DATI d",
-             "AA_ARIA.VO$01$CONFIG_SENSORI cs")    
+             "AA_ARIA.T$01$CONFIG_SENSORI cs")    
     
   }
   what <- c("TO_CHAR(d.TS_INIZIO_RIL,'YYYY-MM-DD HH24:MI') as TS_INIZIO_RIL",          ## OCCHIO CON LA DATA, CONTROLLARE
@@ -65,6 +67,8 @@ dbqa.get.datasens <- function(con,
                   "','YYYY-MM-DD HH24:MI') and to_date('",
                   format(as.POSIXct(ts.range[2]),"%Y-%m-%d %H:%M"),
                   "','YYYY-MM-DD HH24:MI')",sep=""))
+  
+  ## gestisce flag
   if(!is.null(flg) | flg.null) {
     CF <- NULL
     if(!is.null(flg)) {
@@ -86,6 +90,7 @@ dbqa.get.datasens <- function(con,
                     ")",sep=""))
   }        
   
+  ## estrae dati
   query <- simple.query(tab,what,crit)
   if(verbose)  print(query)
   data <- dbGetQuery(con, query, ...)
@@ -296,6 +301,7 @@ dbqa.delete <- function(con, tab, keys, values, verbose=F) {
 }
 
 # arrotondamenti in visualizzazione, secondo indicazioni GdL
+round.awayfromzero <- function(x,digits=0) trunc(x*10^digits+sign(x)*0.5)*10^-digits
 dbqa.round <- function(x,id.param) {
   #                              O3 PM10 PM2.5 NO2  NOx SO2 C6H6   CO  BaP   As   Cd   Ni   Pb
   dat <- data.frame(idparam=c(   7,   5, 111,   8,   9,   1,  20,  10,  29,  18,  14,  15,  12),
@@ -303,7 +309,7 @@ dbqa.round <- function(x,id.param) {
   idx <- which(id.param==dat$idparam)
   if(length(idx)==1) {
     dig <- dat$digits[idx]
-    out <- round(x,dig)    
+    out <- round.awayfromzero(x,dig)    
   } else {
     out <- x
   }

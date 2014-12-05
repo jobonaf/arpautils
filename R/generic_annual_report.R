@@ -86,7 +86,7 @@ calculate.annual_report <- function(data,
       annual.percValid <- annual.nValid/ndays*100
       annual.nExpected <- ndays-4 
     }
-    annual.efficiency <- annual.nValid/annual.nExpected*100
+    annual.efficiency <- round.awayfromzero(annual.nValid/annual.nExpected*100)
     
     annual.report <- data.frame(annual.mean      =annual.mean,
                                 annual.nValid    =annual.nValid,
@@ -110,7 +110,7 @@ calculate.annual_report <- function(data,
       critmonths.percValid <- critmonths.nValid/length(cmDat)*100
       if(hourly) critmonths.nExpected <- length(cmDat)/24*23
       if(daily)  critmonths.nExpected <- length(cmDat)-(length(critical.months)%/%3) # esige un dato in meno a trimestre
-      critmonths.efficiency <- critmonths.nValid/critmonths.nExpected*100
+      critmonths.efficiency <- round.awayfromzero(critmonths.nValid/critmonths.nExpected*100)
       
       annual.report <- data.frame(annual.report,
                                   critmonths.mean      =critmonths.mean,

@@ -107,3 +107,4 @@ aot <- function(x, hr, threshold=80, estimate=T, hr.min=8, hr.max=19) {
   out <- list(Aot=Aot, PercValid=PercValid)
   return(out)
 }
+
