@@ -50,32 +50,6 @@ timezone
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (step, TZ = "BST", ...) 
-{
-    if (!(step \%in\% c("d", "H"))) 
-        stop(paste("Invalid timestep value, only `d` or `H` allowed"))
-    Xm <- merge.xts(..., tzone = TZ)
-    idx.time <- index(Xm)
-    f.time <- idx.time[1]
-    l.time <- idx.time[length(idx.time)]
-    timestring <- paste(format(f.time, "\%Y-\%m-\%d \%H:\%M"), format(l.time, 
-        "\%Y-\%m-\%d \%H:\%M"), step, sep = "/")
-    s0 <- timeBasedSeq(timestring)
-    x0 <- xts(rep(NA, length(s0)), s0, tzone = TZ)
-    Xm <- merge.xts(x0, Xm, join = "left", tzone = TZ)
-    dm <- apply(Xm, MARGIN = 1, FUN = max, na.rm = T)
-    dm[is.infinite(dm)] <- NA
-    dm[is.nan(dm)] <- NA
-    xm <- xts(dm, s0)
-    return(xm)
-  }
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }

@@ -84,7 +84,7 @@ Invece \code{detect.event} restituisce una matrice contenente la data e l'orario
 }
 \author{
 %%  ~~who you are~~
-G.Bonafè
+G.Bonaf�
 }
 \note{
 %%  ~~further notes~~
@@ -94,21 +94,6 @@ G.Bonafè
 
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x, period, necess, FUN = mean) 
-{
-    xmean <- tapply(X = x, INDEX = period, FUN = FUN, na.rm = T)
-    xvalid <- tapply(X = !is.na(x), INDEX = period, FUN = sum, 
-        na.rm = T)
-    xmean[xvalid < necess] <- NA
-    return(xmean)
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

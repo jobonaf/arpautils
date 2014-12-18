@@ -51,7 +51,7 @@ parametri opzionali. La funzione \code{prepare.ozone_annual_report} li passa a \
 %% ...
 La funzione \code{calculate.ozone_annual_report} restituisce una lista di due oggetti:
 
-\code{annual.report} e' un \code{data.frame} di un sola riga con le seguenti colonne:
+\code{annual.report} è un \code{data.frame} di un sola riga con le seguenti colonne:
 \item{cumul.nexc.180 }{numero di superamenti orari della soglia 180}
 \item{cumul.nexc.240 }{numero di superamenti orari della soglia 240}
 \item{cumul.nexc.120 }{numero di superamenti di \code{max.ave.8h} della soglia 120}
@@ -60,7 +60,7 @@ La funzione \code{calculate.ozone_annual_report} restituisce una lista di due og
 \item{aot40.forest }{AOT40 per le foreste}
 \item{aot40.forest.PercValid }{percentuale di dati validi per il calcolo dell'AOT40 per le foreste}
 
-\code{events} e' una lista contenente i due data.frame, ciascuno dei quali avente colonne \code{start.time} e \code{duration}:
+\code{events} è una lista contenente i due data.frame, ciascuno dei quali avente colonne \code{start.time} e \code{duration}:
 \item{exc.180}{contenente gli eventi orari di superamento della soglia 180}
 \item{exc.240}{contenente gli eventi orari di superamento della soglia 240}
 
@@ -70,7 +70,7 @@ La funzione \code{calculate.ozone_annual_report} restituisce una lista di due og
 }
 \author{
 %%  ~~who you are~~
-Giovanni Bonafe', Arpa Emilia-Romagna
+Giovanni Bonafè, Arpa Emilia-Romagna
 }
 \note{
 %%  ~~further notes~~

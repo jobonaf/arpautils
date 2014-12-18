@@ -42,7 +42,7 @@ data richiesta, in formato POSIX
 }
 \author{
 %%  ~~who you are~~
-Giovanni Bonafe'
+Giovanni Bonafè
 }
 \note{
 %%  ~~further notes~~

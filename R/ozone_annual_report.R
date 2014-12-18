@@ -67,7 +67,7 @@ calculate.ozone_annual_report <- function(data){
     annual.nExpected  <- nhours/24*23
     annual.efficiency <- round.awayfromzero(annual.nValid/annual.nExpected*100)
     ## - no. sup. giorn. soglia 120 da inizio anno
-    cumul.nexc.120 <- sum(as.numeric(max.ave.8h>120), na.rm=T)
+    cumul.nexc.120 <- sum(as.numeric(dbqa.round(max.ave.8h,id.param)>120), na.rm=T)
     ## - AOT40 annuale vegetazione
     vegetIdx <- as.numeric(format(Time, format="%m")) %in% 5:7
     vegetDat <- Dat[vegetIdx]

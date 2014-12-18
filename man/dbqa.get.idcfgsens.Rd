@@ -50,7 +50,7 @@ codice numerico identificativo della stazione
 }
 \author{
 %%  ~~who you are~~
-Giovanni Bonafe', Arpa Emilia-Romagna
+Giovanni Bonafè, Arpa Emilia-Romagna
 }
 \note{
 %%  ~~further notes~~
@@ -60,46 +60,6 @@ Giovanni Bonafe', Arpa Emilia-Romagna
 
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (con, id.param, i.date = NULL, f.date = NULL, id.staz) 
-{
-    tab <- "AA_ARIA.ANG_CONFIG_SENSORI"
-    crit <- c(paste("ID_PARAMETRO=", id.param, sep = ""), paste("ID_STAZIONE=", 
-        id.staz, sep = ""))
-    if (!is.null(i.date)) {
-        crit <- c(crit, paste("(DATA_FINE is null OR to_char(DATA_FINE,'yyyymmdd')>='", 
-            format(as.POSIXct(i.date), format = "\%Y\%m\%d"), "')", 
-            sep = ""))
-    }
-    if (!is.null(f.date)) {
-        crit <- c(crit, paste("(DATA_INIZIO is null OR to_char(DATA_INIZIO,'yyyymmdd')<='", 
-            format(as.POSIXct(f.date), format = "\%Y\%m\%d"), "')", 
-            sep = ""))
-    }
-    library("ROracle")
-    query.idcfgsens <- simple.query(tab, what = "ID_CONFIG_SENSORE", 
-        crit)
-    idcfgsens <- fetch(ds <- dbSendQuery(con, query.idcfgsens))[, 
-        1]
-    query.idate <- simple.query(tab, what = "DATA_INIZIO", crit)
-    idate <- fetch(ds <- dbSendQuery(con, query.idate))[, 1]
-    idate <- pmax(as.POSIXct(idate), as.POSIXct(i.date))
-    query.fdate <- simple.query(tab, what = "DATA_FINE", crit)
-    fdate <- fetch(ds <- dbSendQuery(con, query.fdate))[, 1]
-    fdate <- pmin(as.POSIXct(fdate), as.POSIXct(f.date))
-    idx <- order(idate, decreasing = F)
-    idate <- idate[idx]
-    fdate <- fdate[idx]
-    idcfgsens <- idcfgsens[idx]
-    out <- list(idcfgsens = idcfgsens, idate = idate, fdate = fdate)
-    return(out)
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -36,7 +36,7 @@ azione da applicare per la visualizzazione della matrice (usare \code{return} se
 }
 \author{
 %%  ~~who you are~~
-Giovanni Bonafe', Arpa Emilia-Romagna
+Giovanni Bonafè, Arpa Emilia-Romagna
 }
 \note{
 %%  ~~further notes~~

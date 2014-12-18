@@ -155,7 +155,7 @@ calculate.annual_report <- function(data,
       if(hourly) ave.8h <- mean.window(x=as.vector(Dat),k=8,necess=6)
       if(daily)  stop("cannot calculate 8h moving average for daily data!")
       max.ave.8h <- stat.period(x=ave.8h,period=day,necess=18,FUN=max)[-1]
-      ave8h.nexc      <- sum(as.numeric(max.ave.8h>thr.ave8h.max), na.rm=T)
+      ave8h.nexc      <- sum(as.numeric(dbqa.round(max.ave.8h,id.param)>thr.ave8h.max), na.rm=T)
       ave8h.nValid    <- sum(as.numeric(!is.na(max.ave.8h)))
       ave8h.percValid <- ave8h.nValid/ndays*100
       

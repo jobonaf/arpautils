@@ -34,7 +34,7 @@ dbqa.connect(db_usr, db_pwd, db_name, db_tz="BST")
 }
 \author{
 %%  ~~who you are~~
-Giovanni Bonafe', Arpa Emilia-Romagna
+Giovanni Bonafè, Arpa Emilia-Romagna
 }
 \note{
 %%  ~~further notes~~

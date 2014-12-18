@@ -7,7 +7,7 @@ Dato un vettore numerico, lo rappresenta come stringa sintetica
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-Dato un vettore di interi, ne da' una rappresentazione sintetica in una stringa.
+Dato un vettore di interi, ne dà una rappresentazione sintetica in una stringa.
 }
 \usage{
 squeeze(x)

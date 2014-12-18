@@ -1,7 +1,7 @@
+ * gestione selezione stazioni RRQA per generazione tabella web (forse meglio gestirla in sede di costruzione della pagina web)
+ * debug superamenti ozono (mail Valbonetti)
+ * generic_daily_report
  * funzioni e procedure per statistiche annuali:
-  * ozono (NB controllare su base mensile la validita' per conteggiare i superamenti del 120!)
-  * PM10, PM2.5
-  * SO2, NO2, NOx, CO, benzene
   * Pb, As, Cd, Ni, benzo(a)pyrene
  * scrivere efficienza su WEB_ELAB (annuale, mensile)
  * generic_annual_report.R: correggere calcolo giorni attesi nei mesi critici
@@ -9,4 +9,3 @@
  * controllare completa conformità all'Istruzione Operativa http://aggiornati.arpa.emr.it/qualita/documento.aspx?id=34458
  * gestire LOD (<LOD nelle elaborazioni)
  * funzioni e procedure per IQA
- * integrazione con openair per calcolo trend, giorni tipo, settimana tipo

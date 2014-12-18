@@ -70,7 +70,7 @@ argomenti opzionali, passati a \code{dbSendQuery}
 }
 \author{
 %%  ~~who you are~~
-Giovanni Bonafe', Arpa Emilia-Romagna
+Giovanni Bonafè, Arpa Emilia-Romagna
 }
 \note{
 %%  ~~further notes~~
@@ -80,32 +80,6 @@ Giovanni Bonafe', Arpa Emilia-Romagna
 
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (con, ts.range, id.cfgsens, id.param, flg = 1, ...) 
-{
-    tab <- "AA_ARIA.T$01$DATI_STORICO"
-    what <- c("TO_CHAR(TS_INIZIO_RIL,'YYYY-MM-DD HH24:MI') AS TS_INIZIO_RIL", 
-        "VALORE", "FLG_A")
-    crit <- c(paste("ID_PARAMETRO=", id.param, sep = ""), paste("ID_CONFIG_SENSORE=", 
-        id.cfgsens, sep = ""), paste("to_char(TS_INIZIO_RIL,'yyyy-mm-dd') between '", 
-        ts.range[1], "' and '", ts.range[2], "'", sep = ""))
-    if (!is.null(flg)) {
-        crit <- c(crit, paste(paste("FLG_A=", flg, sep = ""), 
-            collapse = " OR "))
-    }
-    query <- simple.query(tab, what, crit)
-    print(query)
-    library("ROracle")
-    data <- dbGetQuery(con, query, ...)
-    data$TS_INIZIO_RIL <- as.POSIXct(data$TS_INIZIO_RIL)
-    return(data)
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

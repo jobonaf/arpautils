@@ -2,7 +2,7 @@
 
 ## Operazioni:
 ## 1) estrazione
-## 2) calcolo indicatori e loro validità
+## 2) calcolo indicatori e loro validita'
 ## 3) identificazione eventi
 ## 4) scrittura su DB
 
@@ -49,9 +49,10 @@ prepare.ozone_daily_report <- function(con,
 calculate.ozone_daily_report <- function(data){
   
   Dat <- data$Dat
+  id.param=7
   
   if(!is.null(Dat)){
-    ## 2) calcolo indicatori e loro validità
+    ## 2) calcolo indicatori e loro validita'
     Time <- index(Dat)
     day <- Ymd(Time)
     yDat <- last(Dat,'1 year') # solo dati ultimo anno
@@ -83,7 +84,7 @@ calculate.ozone_daily_report <- function(data){
     ## - no. sup. orari soglia 240 da inizio anno (valori arrotondati)
     cumul.nexc.240 <- sum(as.numeric(yDatR>240), na.rm=T)
     ## - no. sup. giorn. soglia 120 da inizio anno
-    cumul.nexc.120 <- sum(as.numeric(max.ave.8h>120), na.rm=T)
+    cumul.nexc.120 <- sum(as.numeric(dbqa.round(max.ave.8h,id.param)>120), na.rm=T)
     
     daily.report <- data.frame(max.day=      max.day,
                                hour.max.day= hour.max.day,

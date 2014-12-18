@@ -1,12 +1,11 @@
 Package: arpautils
 Type: Package
 Title: R utility functions for Arpa ER air quality data
-Version: 0.8.7
-Date: 2014-12-05
-Author: G.Bonafe'
-Maintainer: G.Bonafe' <gbonafe@arpa.emr.it>
-Depends: ROracle (>= 1.1-11),
-    xts (>= 0.9-7),
-    caTools (>= 1.17)
+Version: 0.8.8
+Date: 2014-12-18
+Author: G.Bonafè
+Maintainer: G.Bonafè <gbonafe@arpa.emr.it>
+Depends: ROracle (>= 1.1-11), xts (>= 0.9-7), caTools (>= 1.17)
 Description: Funzioni utili per gestire i dati di qualita' dell'aria di Arpa Emilia-Romagna
 License: GPL-2
+Encoding: latin1

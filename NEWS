@@ -1,3 +1,9 @@
+Changes in arpautils 0.8.8 [2014-12-18]
+=====================================
+ * reintrodotto arrotondamento del max media mobile (non era un bug!)
+ * aggiustamenti minimi nel manuale
+
+
 Changes in arpautils 0.8.7 [2014-12-05]
 =====================================
  * adeguato l'arrotondamento (0.5 diventa 1)

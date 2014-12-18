@@ -52,7 +52,7 @@ argomenti opzionali, passati a \code{dbqa.get.datasens}
 }
 \author{
 %%  ~~who you are~~
-Giovanni Bonafe', Arpa Emilia-Romagna
+Giovanni Bonafè, Arpa Emilia-Romagna
 }
 \note{
 %%  ~~further notes~~
@@ -62,32 +62,6 @@ Giovanni Bonafe', Arpa Emilia-Romagna
 
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (con, ts.range, id.staz, id.param, flg = 1, ...) 
-{
-    cfgsens <- dbqa.get.idcfgsens(con, id.param, i.date = ts.range[1], 
-        f.date = ts.range[2], id.staz)
-    DATA <- NULL
-    nsens <- length(cfgsens$idcfgsens)
-    for (i in 1:nsens) {
-        idate <- cfgsens$idate[i]
-        fdate <- cfgsens$fdate[i]
-        if (is.na(idate)) 
-            idate <- as.POSIXct(ts.range[1])
-        if (is.na(fdate)) 
-            fdate <- as.POSIXct(ts.range[2])
-        dat <- dbqa.get.datasens(con, c(idate, fdate), cfgsens$idcfgsens[i], 
-            id.param, flg = flg, ...)
-        DATA <- data.frame(rbind(DATA, dat))
-    }
-    return(DATA)
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

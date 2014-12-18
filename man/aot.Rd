@@ -52,7 +52,7 @@ ultima ora della fascia oraria da considerare
 }
 \author{
 %%  ~~who you are~~
-G.Bonafè
+G.Bonaf�
 }
 \note{
 %%  ~~further notes~~
@@ -62,28 +62,6 @@ G.Bonafè
 
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x, hr, threshold = 80, estimate = T, hr.min = 8, hr.max = 19) 
-{
-    if (length(x) != length(hr)) 
-        stop("x and hr must have the same length!")
-    delta.positive <- pmax(x - threshold, 0)
-    in.hr <- hr >= hr.min & hr <= hr.max
-    valid <- !is.na(x)
-    in.hr.valid <- in.hr & valid
-    Aot <- sum(delta.positive, na.rm = T)
-    if (estimate) 
-        Aot <- Aot * sum(in.hr)/sum(in.hr.valid)
-    PercValid <- sum(in.hr.valid)/sum(in.hr) * 100
-    out <- list(Aot = Aot, PercValid = PercValid)
-    return(out)
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

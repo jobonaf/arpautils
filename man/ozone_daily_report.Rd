@@ -54,7 +54,7 @@ parametri opzionali. La funzione \code{prepare.ozone_daily_report} li passa a \c
 %% ...
 La funzione \code{calculate.ozone_daily_report} restituisce una lista di due oggetti:
 
-\code{daily.report} e' un \code{data.frame} di un sola riga con le seguenti colonne:
+\code{daily.report} ? un \code{data.frame} di un sola riga con le seguenti colonne:
 \item{max.day }{massimo giornaliero}
 \item{hour.max.day }{ora in cui si e' verificato il massimo (inizio dell'intervallo orario)}
 \item{max.ave.8h }{massimi giornaliero della media mobile su 8 ore}
@@ -62,7 +62,7 @@ La funzione \code{calculate.ozone_daily_report} restituisce una lista di due ogg
 \item{cumul.nexc.240 }{numero di superamenti orari della soglia 240, dall'inizio dell'anno}
 \item{cumul.nexc.120 }{numero di superamenti di \code{max.ave.8h} della soglia 120, dall'inizio dell'anno}
 
-\code{events} e' una lista contenente i due data.frame, ciascuno dei quali avente colonne \code{start.time} e \code{duration}:
+\code{events} ? una lista contenente i due data.frame, ciascuno dei quali avente colonne \code{start.time} e \code{duration}:
 \item{exc.180}{contenente gli eventi orari di superamento della soglia 180}
 \item{exc.240}{contenente gli eventi orari di superamento della soglia 240}
 
@@ -72,7 +72,7 @@ La funzione \code{calculate.ozone_daily_report} restituisce una lista di due ogg
 }
 \author{
 %%  ~~who you are~~
-Giovanni Bonafe', Arpa Emilia-Romagna
+Giovanni Bonafè, Arpa Emilia-Romagna
 }
 \note{
 %%  ~~further notes~~
