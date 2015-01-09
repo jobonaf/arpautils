@@ -61,10 +61,10 @@ calculate.ozone_daily_report <- function(data){
     dDat <- last(Dat,'1 day') # solo dati ultimo giorno
     dTime <- index(dDat)
     dday <- Ymd(dTime)
-    yDatR <- round(as.vector(yDat)) # solo dati ultimo anno, arrotondati
-    dDatR <- round(as.vector(dDat)) # solo dati ultimo giorno, arrotondati
+    yDatR <- dbqa.round(as.vector(yDat),id.param=7) # solo dati ultimo anno, arrotondati (ma dovrebbero gia' esserlo)
+    dDatR <- dbqa.round(as.vector(dDat),id.param=7) # solo dati ultimo giorno, arrotondati (ma dovrebbero gia' esserlo)
     ## - max giornaliero (con arrotondamento)
-    max.day <- round(stat.period(x=as.vector(dDat),period=dday,necess=18,FUN=max))
+    max.day <- dbqa.round(stat.period(x=as.vector(dDat),period=dday,necess=18,FUN=max),id.param=7)
     hour.max.day <- Hour(index(dDat))[unlist(which.period(x=as.vector(dDat),
                                                           period=dday,
                                                           necess=18,
@@ -73,7 +73,7 @@ calculate.ozone_daily_report <- function(data){
 #     hours.exc.180 <- squeeze(Hour(index(dDat))[which(dDatR>180)])
 #     hours.exc.240 <- squeeze(Hour(index(dDat))[which(dDatR>240)])
     # - max media mobile 8h (con arrotondamento)
-    ave.8h <- round(mean.window(x=as.vector(Dat),k=8,necess=6))
+    ave.8h <- dbqa.round(mean.window(x=as.vector(Dat),k=8,necess=6),id.param=7)
     max.ave.8h <- stat.period(x=ave.8h,period=day,necess=18,FUN=max)[-1]
     ## - no. sup. orari soglia 180 nel giorno (valori arrotondati)
     nexc.180 <- sum(as.numeric(dDatR>180), na.rm=T)

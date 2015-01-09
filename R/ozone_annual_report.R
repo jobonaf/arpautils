@@ -49,7 +49,7 @@ calculate.ozone_annual_report <- function(data){
     yDat <- last(Dat,'1 year') # solo dati ultimo anno
     yTime <- index(yDat)
     yday <- Ymd(yTime)
-    yDatR <- round(as.vector(yDat)) # solo dati ultimo anno, arrotondati
+    yDatR <- dbqa.round(as.vector(yDat),id.param=7) # solo dati ultimo anno, arrotondati (ma dovrebbero esserlo gia'...)
     
     ## numero di giorni e ore nell'anno
     ndays  <- Ndays.in.year(Year(yTime[1]))
@@ -74,7 +74,7 @@ calculate.ozone_annual_report <- function(data){
     vegetTime <- Time[vegetIdx]
     vegetHour <- as.numeric(format(vegetTime, format="%H"))
     dum <- aot(vegetDat, vegetHour, threshold=80, estimate=T, hr.min=8, hr.max=19)
-    aot40.veget <- round(dum$Aot)
+    aot40.veget <- dbqa.round(dum$Aot,id.param=7)
     aot40.veget.PercValid <- dum$PercValid
     ## - AOT40 annuale foreste
     forestIdx <- as.numeric(format(Time, format="%m")) %in% 4:9
@@ -82,7 +82,7 @@ calculate.ozone_annual_report <- function(data){
     forestTime <- Time[forestIdx]
     forestHour <- as.numeric(format(forestTime, format="%H"))
     dum <- aot(forestDat, forestHour, threshold=80, estimate=T, hr.min=8, hr.max=19)
-    aot40.forest <- round(dum$Aot)
+    aot40.forest <- dbqa.round(dum$Aot,id.param=7)
     aot40.forest.PercValid <- dum$PercValid
     ## conta dati validi nella fascia oraria di interesse
     ## per il periodo aprile-settembre
