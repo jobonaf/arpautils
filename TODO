@@ -1,11 +1,8 @@
- * gestione selezione stazioni RRQA per generazione tabella web (forse meglio gestirla in sede di costruzione della pagina web)
- * debug superamenti ozono (mail Valbonetti)
  * generic_daily_report
  * funzioni e procedure per statistiche annuali:
   * Pb, As, Cd, Ni, benzo(a)pyrene
  * scrivere efficienza su WEB_ELAB (annuale, mensile)
  * generic_annual_report.R: correggere calcolo giorni attesi nei mesi critici
  * funzioni e procedure per statistiche mensili
- * controllare completa conformità all'Istruzione Operativa http://aggiornati.arpa.emr.it/qualita/documento.aspx?id=34458
  * gestire LOD (<LOD nelle elaborazioni)
  * funzioni e procedure per IQA

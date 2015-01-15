@@ -7,7 +7,7 @@ dbqa.config <- function(db_usr, db_pwd, db_name, db_tz="BST") {
   return(cfg)
 }
 
-## funzione per connettersi al DB di qualità dell'aria Arpa ER
+## funzione per connettersi al DB di qualita' dell'aria Arpa ER
 ## (BST = ora locale italiana senza DST)
 dbqa.connect <- function(db_usr, db_pwd, db_name, db_tz="BST") { 
   ## Carichiamo la libreria Oracle
@@ -178,12 +178,21 @@ dbqa.view.param <- function(con,FUN=View) {
 }
 
 dbqa.view.staz <- function(con,FUN=View) {
-  query <- "select distinct ID_STAZIONE, NOME_STAZIONE, COMUNE, PROVINCIA from AA_ARIA.ANG_CONFIG_SENSORI"
+  query <- "select distinct ID_STAZIONE, NOME_STAZIONE, COMUNE, PROVINCIA, TIPOSTAZ, ZONA from AA_ARIA.ANG_CONFIG_SENSORI"
   data <- fetch(ds <- dbSendQuery(con, query))
   idx <- order(data[, 2])
   Data <- data[idx, ]
   rownames(Data) <- rownames(data)
   FUN(Data)
+}
+
+dbqa.isrrqa <- function(con,Id) {
+  isr <- function(id) substr(dbGetQuery(con,paste("select aa_web.pk$99$zone.isRRQA_NEW (",
+                                                  id,
+                                                  ") from dual",
+                                                  sep="")),
+                             1,4)=="RRQA"
+  mapply(FUN=isr, Id)
 }
 
 dbqa.list.active.staz <- function(con,

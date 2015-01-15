@@ -1,3 +1,8 @@
+Changes in arpautils 0.8.10 [2015-01-15]
+=====================================
+ * gestione selezione stazioni RRQA con dbqa.isrrqa()
+ * estrazione tipo_emis e tipo_area
+
 Changes in arpautils 0.8.9 [2015-01-09]
 =====================================
  * debug negli arrotondamenti in calculate.ozone_annual_report e calculate.ozone_daily_report
