@@ -1,7 +1,13 @@
+Changes in arpautils 0.8.11 [2015-01-19]
+=====================================
+ * corretto bug nella valutazione della validita' delle statistiche annuali ozono
+
+
 Changes in arpautils 0.8.10 [2015-01-15]
 =====================================
  * gestione selezione stazioni RRQA con dbqa.isrrqa()
  * estrazione tipo_emis e tipo_area
+
 
 Changes in arpautils 0.8.9 [2015-01-09]
 =====================================

@@ -43,7 +43,7 @@ calculate.ozone_annual_report <- function(data){
   Dat <- data$Dat
   
   if(!is.null(Dat)){
-    ## 2) calcolo indicatori e loro validità
+    ## 2) calcolo indicatori e loro validita'
     Time <- index(Dat)
     day <- Ymd(Time)
     yDat <- last(Dat,'1 year') # solo dati ultimo anno
@@ -58,16 +58,17 @@ calculate.ozone_annual_report <- function(data){
     # - max media mobile 8h
     ave.8h <- mean.window(x=as.vector(Dat),k=8,necess=6)
     max.ave.8h <- stat.period(x=ave.8h,period=day,necess=18,FUN=max)[-1]
-    ## - no. sup. orari soglia 180 da inizio anno (valori arrotondati)
+    ## - no. sup. orari soglia 180 (valori arrotondati)
     cumul.nexc.180 <- sum(as.numeric(yDatR>180), na.rm=T)
-    ## - no. sup. orari soglia 240 da inizio anno (valori arrotondati)
+    ## - no. sup. orari soglia 240 (valori arrotondati)
     cumul.nexc.240 <- sum(as.numeric(yDatR>240), na.rm=T)
     ## no. di dati orari validi
     annual.nValid     <- sum(as.numeric(!is.na(yDatR)))
     annual.nExpected  <- nhours/24*23
     annual.efficiency <- round.awayfromzero(annual.nValid/annual.nExpected*100)
-    ## - no. sup. giorn. soglia 120 da inizio anno
+    ## - no. sup. giorn. soglia 120
     cumul.nexc.120 <- sum(as.numeric(dbqa.round(max.ave.8h,id.param=7)>120), na.rm=T)
+    
     ## - AOT40 annuale vegetazione
     vegetIdx <- as.numeric(format(Time, format="%m")) %in% 5:7
     vegetDat <- Dat[vegetIdx]
@@ -84,6 +85,7 @@ calculate.ozone_annual_report <- function(data){
     dum <- aot(forestDat, forestHour, threshold=80, estimate=T, hr.min=8, hr.max=19)
     aot40.forest <- dbqa.round(dum$Aot,id.param=7)
     aot40.forest.PercValid <- dum$PercValid
+    
     ## conta dati validi nella fascia oraria di interesse
     ## per il periodo aprile-settembre
     hr.min=8
@@ -95,12 +97,26 @@ calculate.ozone_annual_report <- function(data){
     yMo <- Month(yTime)
     in.hr <- yHr>=hr.min & yHr<=hr.max
     yValid0820 <- yValid & in.hr
-    mValid     <- tapply(X=yValid0820, INDEX=yMo, FUN=sum)
-    ## calcola efficienza mensile per i superamenti
-    mExpected  <- tapply(X=in.hr,      INDEX=yMo, FUN=sum)
-    mEfficiency<- mValid/mExpected*100
+    mValid0820 <- tapply(X=yValid0820, INDEX=yMo, FUN=sum)
+    ## calcola efficienza mensile per la fascia oraria di interesse
+    mExpected0820  <- tapply(X=in.hr,  INDEX=yMo, FUN=sum)
+    mEfficiency0820<- round.awayfromzero(mValid0820/mExpected0820*100)
     ## conta quanti mesi estivi soddisfacenti ci sono
-    validMonths<- mEfficiency>=90 & unique(yMo) %in% mo.necess
+    validMonths0820<- mEfficiency0820>=90 & unique(yMo) %in% mo.necess
+    nValidMonths0820<- sum(as.numeric(validMonths0820), na.rm=T)
+    
+    ## conta giorni validi
+    ## per il periodo aprile-settembre
+    yDy <- Ymd(yTime)
+    dValid <- tapply(X=yValid, INDEX=yDy, FUN=sum)>=18
+    yyyymm <- substr(unique(yDy),1,6)
+    mValid     <- tapply(X=dValid, INDEX=yyyymm, FUN=sum)
+    ## calcola efficienza mensile su base giornaliera
+    mExpected  <- tapply(X=dValid, INDEX=yyyymm, FUN=length)
+    mEfficiency<- round.awayfromzero(mValid/mExpected*100)
+    ## conta quanti mesi estivi soddisfacenti ci sono
+    mm <- as.numeric(substr(unique(yyyymm),5,6))
+    validMonths<- mEfficiency>=90 & mm %in% mo.necess
     nValidMonths<- sum(as.numeric(validMonths), na.rm=T)
     
     annual.report <- data.frame(cumul.nexc.180=cumul.nexc.180,
@@ -113,7 +129,8 @@ calculate.ozone_annual_report <- function(data){
                                 aot40.veget.PercValid= aot40.veget.PercValid,
                                 aot40.forest=          aot40.forest,
                                 aot40.forest.PercValid=aot40.forest.PercValid,
-                                nValidMonths=nValidMonths)
+                                nValidMonths=nValidMonths,
+                                nValidMonths0820=nValidMonths0820)
     
   } else {
     annual.report <- data.frame(cumul.nexc.180=NA,
@@ -126,7 +143,8 @@ calculate.ozone_annual_report <- function(data){
                                 aot40.veget.PercValid= NA,
                                 aot40.forest=          NA,
                                 aot40.forest.PercValid=NA,
-                                nValidMonths=NA)
+                                nValidMonths=NA,
+                                nValidMonths0820=NA)
   }
   
   ## 3) identificazione eventi
@@ -224,8 +242,12 @@ write.ozone_annual_report <- function(con,
                                 TS1_V1_ELAB    =date4db(OAR$first.time),
                                 TS2_V1_ELAB    =date4db(OAR$last.time),
                                 TS_INS         =date4db(Sys.time()),
-                                FLG_ELAB       =as.numeric(!is.null(OAR$annual.report$nValidMonths) &&
-                                                             OAR$annual.report$nValidMonths>=5),
+                                FLG_ELAB       =c(as.numeric(!is.null(OAR$annual.report$nValidMonths) &&
+                                                               OAR$annual.report$nValidMonths>=5),
+                                                  as.numeric(!is.null(OAR$annual.report$nValidMonths0820) &&
+                                                               OAR$annual.report$nValidMonths0820>=5),
+                                                  as.numeric(!is.null(OAR$annual.report$nValidMonths0820) &&
+                                                               OAR$annual.report$nValidMonths0820>=5)),
                                 row.names = NULL),
               to_date=c(1,8,9,10),
               verbose=verbose,

@@ -2,7 +2,7 @@
 
 ## Operazioni:
 ## 1) estrazione
-## 2) calcolo indicatori e loro validità
+## 2) calcolo indicatori e loro validita'
 ## 3) scrittura su DB
 
 prepare.annual_report <- function(con,
