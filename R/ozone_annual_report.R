@@ -2,7 +2,7 @@
 
 ## Operazioni:
 ## 1) estrazione
-## 2) calcolo indicatori e loro validità
+## 2) calcolo indicatori e loro validita'
 ## 3) identificazione eventi
 ## 4) scrittura su DB
 

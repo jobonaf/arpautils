@@ -97,10 +97,10 @@ detect.event <- function(x,threshold) {
 
 aot <- function(x, hr, threshold=80, estimate=T, hr.min=8, hr.max=19) {
   if(length(x)!=length(hr)) stop("x and hr must have the same length!")
-  delta.positive <- pmax(x-threshold,0)
   in.hr <- hr>=hr.min & hr<=hr.max
   valid <- !is.na(x)
   in.hr.valid <- in.hr&valid
+  delta.positive <- pmax(x[in.hr]-threshold,0)
   Aot <- sum(delta.positive, na.rm=T)
   if(estimate) Aot <- Aot*sum(in.hr)/sum(in.hr.valid)
   PercValid <- sum(in.hr.valid)/sum(in.hr)*100

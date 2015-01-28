@@ -1,3 +1,8 @@
+Changes in arpautils 0.8.12 [2015-01-28]
+=====================================
+ * corretto bug nell'AOT
+
+
 Changes in arpautils 0.8.11 [2015-01-19]
 =====================================
  * corretto bug nella valutazione della validita' delle statistiche annuali ozono
