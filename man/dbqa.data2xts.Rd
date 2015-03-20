@@ -32,7 +32,7 @@ timezone (vedi Warning)
 }
 }
 \section{Warning}{
-  Si fa riferimento all'ora ``Africa/Algiers'' (British Summer Time) poiche' (assieme a ``Africa/Algiers'') e' l'unico standard codificato corrispondente all'ora del DB, nonche' all'ora a cui si riferisce la normativa: Central Europe Time senza Daylight Saving Time (ora legale).
+  Si fa riferimento all'ora ``Africa/Algiers'' poiche' e' l'unico standard codificato corrispondente all'ora del DB, nonche' all'ora a cui si riferisce la normativa: Central Europe Time senza Daylight Saving Time (ora legale).
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -60,7 +60,3 @@ Giovanni Bonafè, Arpa Emilia-Romagna
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

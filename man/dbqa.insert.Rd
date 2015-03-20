@@ -10,7 +10,8 @@ Inserisce valori in una tabella del DB.
 Inserisce valori in una tabella del DB.
 }
 \usage{
-dbqa.insert(con, tab, values, columns = colnames(values), to_date=NULL, update = F, verbose = F)
+dbqa.insert(con, tab, values, columns = colnames(values), 
+            to_date=NULL, update = F, verbose = F)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -71,7 +72,3 @@ Giovanni Bonafè
 }
 \examples{
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

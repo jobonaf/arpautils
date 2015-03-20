@@ -50,7 +50,3 @@ squeeze(x)
  squeeze(x)
  squeeze(sample(x=1:1000,size=995))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

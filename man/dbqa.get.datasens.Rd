@@ -10,7 +10,9 @@ Estrae i dati di un sensore
 Estrae i dati di un sensore 
 }
 \usage{
-dbqa.get.datasens(con, ts.range, id.cfgsens, id.param, flg = 1, flg.excl=NULL, flg.null=FALSE, verbose=FALSE, table="storico",...)
+dbqa.get.datasens(con, ts.range, id.cfgsens, id.param, 
+                  flg = 1, flg.excl=NULL, flg.null=FALSE, 
+                  verbose=FALSE, table="storico",...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -81,7 +83,3 @@ Giovanni Bonafè, Arpa Emilia-Romagna
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

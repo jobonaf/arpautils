@@ -99,7 +99,3 @@ dbDisconnect(con)
 
 }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~ozone }
-\keyword{ ~air quality }% __ONLY ONE__ keyword per line

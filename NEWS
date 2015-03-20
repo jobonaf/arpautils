@@ -1,3 +1,8 @@
+Changes in arpautils 0.8.13 [2015-03-20]
+=====================================
+ * timezone da BST a Africa/Algiers
+
+
 Changes in arpautils 0.8.12 [2015-01-28]
 =====================================
  * corretto bug nell'AOT 

@@ -7,7 +7,7 @@ Elenca le stazioni QA.
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-Elenca le stazioni, applicando la query
+Elenca le stazioni, applicando la query 
 \code{select distinct ID_STAZIONE, NOME_STAZIONE, COMUNE, PROVINCIA
 from AA_ARIA.ANG_CONFIG_SENSORI}
 }
@@ -63,7 +63,3 @@ View(Dat)
 dbDisconnect(con)
 }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

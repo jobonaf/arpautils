@@ -139,7 +139,3 @@ calculate.annual_report(data=dat)
 dbDisconnect(con1)
 }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~ozone }
-\keyword{ ~air quality }% __ONLY ONE__ keyword per line
