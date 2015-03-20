@@ -1,15 +1,15 @@
 ## Funzioni di accesso e interrogazione al DB QA
 
 ## credenziali accesso DB
-dbqa.config <- function(db_usr, db_pwd, db_name, db_tz="BST") {
+dbqa.config <- function(db_usr, db_pwd, db_name, db_tz="Africa/Algiers") {
   Sys.setenv(TZ=db_tz)
   cfg <- list(db_usr=db_usr, db_pwd=db_pwd, db_name=db_name)
   return(cfg)
 }
 
 ## funzione per connettersi al DB di qualita' dell'aria Arpa ER
-## (BST = ora locale italiana senza DST)
-dbqa.connect <- function(db_usr, db_pwd, db_name, db_tz="BST") { 
+## (Africa/Algiers = ora locale italiana senza DST)
+dbqa.connect <- function(db_usr, db_pwd, db_name, db_tz="Africa/Algiers") { 
   ## Carichiamo la libreria Oracle
   ## Carichiamo il driver
   drv <- dbDriver("Oracle")
@@ -251,10 +251,10 @@ dbqa.get.datastaz <- function(con,
                               ...)
     Dat <- dbqa.data2xts(dat)
     Dreg <- xts.regolarize(tstep,Dat,
-                           f.time=as.POSIXct(ts.range[1], TZ="BST"),
-                           l.time=as.POSIXct(ts.range[2], TZ="BST"))
+                           f.time=as.POSIXct(ts.range[1], TZ="Africa/Algiers"),
+                           l.time=as.POSIXct(ts.range[2], TZ="Africa/Algiers"))
     if(i>1) {
-      DATA <- xts.blend(tstep, TZ="BST", DATA, Dreg)
+      DATA <- xts.blend(tstep, TZ="Africa/Algiers", DATA, Dreg)
     } else {
       DATA <- Dreg
     }

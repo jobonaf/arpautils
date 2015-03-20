@@ -10,7 +10,7 @@ Converte i dati estratti da DB in un oggetto di tipo \code{xts}
 Converte i dati estratti da DB in un oggetto di tipo \code{xts}
 }
 \usage{
-dbqa.data2xts(data, Date = "TS_INIZIO_RIL", Value = "VALORE", TZ="BST")
+dbqa.data2xts(data, Date = "TS_INIZIO_RIL", Value = "VALORE", TZ="Africa/Algiers")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,7 +32,7 @@ timezone (vedi Warning)
 }
 }
 \section{Warning}{
-  Si fa riferimento all'ora ``BST'' (British Summer Time) poiche' (assieme a ``Africa/Algiers'') e' l'unico standard codificato corrispondente all'ora del DB, nonche' all'ora a cui si riferisce la normativa: Central Europe Time senza Daylight Saving Time (ora legale).
+  Si fa riferimento all'ora ``Africa/Algiers'' (British Summer Time) poiche' (assieme a ``Africa/Algiers'') e' l'unico standard codificato corrispondente all'ora del DB, nonche' all'ora a cui si riferisce la normativa: Central Europe Time senza Daylight Saving Time (ora legale).
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

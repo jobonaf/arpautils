@@ -12,10 +12,10 @@ prepare.ozone_annual_report <- function(con,
                                        ...){
   ## 0) operazioni preliminari
   if(is.null(year)) {
-    year <- format(as.POSIXct(paste(Sys.Date(),"00:00"), tz="BST")-60*60*24*30*5,"%Y") # l'anno di 5 mesi fa
+    year <- format(as.POSIXct(paste(Sys.Date(),"00:00"), tz="Africa/Algiers")-60*60*24*30*5,"%Y") # l'anno di 5 mesi fa
   }
-  f.date <- as.POSIXct(paste(year,"-12-31 23:59",sep=""), tz="BST") # fine anno
-  i.date <- as.POSIXct(paste(Year(f.date)-1,"-12-31 16:00",sep=""), tz="BST") # margine per media mobile
+  f.date <- as.POSIXct(paste(year,"-12-31 23:59",sep=""), tz="Africa/Algiers") # fine anno
+  i.date <- as.POSIXct(paste(Year(f.date)-1,"-12-31 16:00",sep=""), tz="Africa/Algiers") # margine per media mobile
   
   
   ## 1) estrazione

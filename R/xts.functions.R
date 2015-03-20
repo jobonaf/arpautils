@@ -2,7 +2,7 @@
 dbqa.data2xts <- function(data,
                           Date="TS_INIZIO_RIL",
                           Value="VALORE",
-                          TZ="BST") {
+                          TZ="Africa/Algiers") {
   out <- xts(data[[Value]], as.POSIXct(data[[Date]], tz=TZ), tzone=TZ) ## sembra sia l'unico modo per codificare UTC+1 senza DST
   return(out)
 }
@@ -13,7 +13,7 @@ dbqa.data2xts <- function(data,
 xts.regolarize <- function(tstep, x,
                            f.time=(i<-index(x))[1],
                            l.time=i[length(i)],
-                           TZ="BST") {
+                           TZ="Africa/Algiers") {
   ## controlla lo step
   if(!(tstep%in%c("d","H"))) stop(paste("Invalid timestep value, only `d` or `H` allowed"))
   
@@ -36,7 +36,7 @@ xts.regolarize <- function(tstep, x,
 
 ## unisce molte serie temporali in una sola,
 ## regolarizzandole a passi orari o giornalieri
-xts.blend <- function(tstep, TZ="BST", ...) {
+xts.blend <- function(tstep, TZ="Africa/Algiers", ...) {
   ## controlla lo step
   if(!(tstep%in%c("d","H"))) stop(paste("Invalid timestep value, only `d` or `H` allowed"))
   

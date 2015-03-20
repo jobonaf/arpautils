@@ -10,7 +10,7 @@ fonde tra loro due oggetti \code{xts}
 fonde tra loro due oggetti \code{xts}
 }
 \usage{
-xts.blend(tstep, TZ = "BST", ...)
+xts.blend(tstep, TZ = "Africa/Algiers", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

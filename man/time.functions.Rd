@@ -18,15 +18,15 @@ Funzioni che gestiscono le date, ore, ecc.
 Funzioni che gestiscono i riferimenti temporali (date, ore, ecc.) di una serie temporale di tipo \code{xts}.
 }
 \usage{
-Hour(x, tz = "BST")
-Month(x, tz = "BST")
-Year(x, tz = "BST")
-Ymd(x, tz = "BST")
-Ym(x, tz = "BST")
-YQ(x, tz = "BST")
-Ndays(x, tz = "BST")
-Nmonths(x, tz = "BST")
-Ndays.in.year(year, tz = "BST")
+Hour(x, tz = "Africa/Algiers")
+Month(x, tz = "Africa/Algiers")
+Year(x, tz = "Africa/Algiers")
+Ymd(x, tz = "Africa/Algiers")
+Ym(x, tz = "Africa/Algiers")
+YQ(x, tz = "Africa/Algiers")
+Ndays(x, tz = "Africa/Algiers")
+Nmonths(x, tz = "Africa/Algiers")
+Ndays.in.year(year, tz = "Africa/Algiers")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

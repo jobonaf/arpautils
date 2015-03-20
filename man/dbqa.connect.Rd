@@ -10,13 +10,13 @@ Si connette al DB QA
 Si connette al DB QA
 }
 \usage{
-dbqa.connect(db_usr, db_pwd, db_name, db_tz="BST")
+dbqa.connect(db_usr, db_pwd, db_name, db_tz="Africa/Algiers")
 }
 \arguments{
   \item{db_usr}{user}
   \item{db_pwd}{password}
   \item{db_name}{indirizzo}
-  \item{db_tz}{timezone. Default 'BST', ora solare locale italiana.}
+  \item{db_tz}{timezone. Default 'Africa/Algiers', ora solare locale italiana.}
 }
 %- maybe also 'usage' for other objects documented here.
 \details{

@@ -20,10 +20,10 @@ prepare.ozone_daily_report <- function(con,
                                        ...){
   ## 0) operazioni preliminari
   if(is.null(Date)) {
-    Date <- format(as.POSIXct(paste(Sys.Date(),"00:00"), tz="BST")-60*60*6,"%Y-%m-%d") # ieri
+    Date <- format(as.POSIXct(paste(Sys.Date(),"00:00"), tz="Africa/Algiers")-60*60*6,"%Y-%m-%d") # ieri
   }
-  f.date <- as.POSIXct(paste(Date,"23:59"), tz="BST") # fine giornata
-  i.date <- as.POSIXct(paste(Year(f.date)-1,"-12-31 16:00",sep=""), tz="BST") # margine per media mobile
+  f.date <- as.POSIXct(paste(Date,"23:59"), tz="Africa/Algiers") # fine giornata
+  i.date <- as.POSIXct(paste(Year(f.date)-1,"-12-31 16:00",sep=""), tz="Africa/Algiers") # margine per media mobile
   
   
   ## 1) estrazione

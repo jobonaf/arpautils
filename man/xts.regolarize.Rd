@@ -10,7 +10,7 @@ Regolarizza la scansione temporale di un oggetto xts
 Regolarizza la scansione temporale di un oggetto xts
 }
 \usage{
-xts.regolarize(tstep, x, f.time=(i<-index(x))[1], l.time=i[length(i)], TZ="BST")
+xts.regolarize(tstep, x, f.time=(i<-index(x))[1], l.time=i[length(i)], TZ="Africa/Algiers")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
