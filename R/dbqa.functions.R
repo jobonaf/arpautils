@@ -197,7 +197,8 @@ dbqa.isrrqa <- function(con,Id) {
 
 dbqa.list.active.staz <- function(con,
                                   prov,
-                                  Day=Sys.Date()) {
+                                  Day=Sys.Date(),
+                                  mobile=FALSE) {
   day <- format(Day,format="%Y-%m-%d")
   query <- paste("SELECT ID_CONFIG_STAZ ",
                  "FROM aa_aria.VO$01$CONFIG_STAZIONI cst ",
@@ -207,7 +208,7 @@ dbqa.list.active.staz <- function(con,
                  "AND NVL (cst.dth_f_vld, to_date('",
                  day,
                  "','YYYY-MM-DD')) ",
-                 "AND NVL (cst.flg_mobile, 0) = 0 ",
+                 if(!mobile) "AND NVL (cst.flg_mobile, 0) = 0 ",
                  "AND COD_PRV = '",prov,"'",sep="")
   data <- dbGetQuery(con, query)
   Data <- as.character(unlist(data))

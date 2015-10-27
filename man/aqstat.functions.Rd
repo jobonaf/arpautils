@@ -70,28 +70,36 @@ Le funzioni \code{stat.period} e \code{stat.period2} calcolano una statistica \c
 Invece \code{stat.window} opera su una finestra mobile, e chiama \code{shift} che sposta la serie temporale in avanti o indietro nel tempo. Piu' efficiente, ma limitata alla media mobile, e' \code{mean.window}.
 
 La funzione \code{exc.period} fa il conteggio dei superamenti di una data soglia.
-Invece \code{detect.event} restituisce una matrice contenente la data e l'orario dei superamenti e la loro durata (espressa in numero di timestep).
+Invece \code{detect.event} restituisce una matrice contenente informazioni sui superamenti della soglia (vedi sezione \code{Value}).
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+Le funzioni \code{stat.period}, \code{stat.period2} e \code{which.period} restituiscono un vettore numerico contenente il valore di \code{FUN} calcolato su \code{x} per ciascuno dei valori di \code{period}.
+
+La funzione \code{exc.period} restituisce un vettore numerico contenente il conteggio dei superamenti di \code{x} per ciascuno dei valori di \code{period}.
+
+Le funzioni \code{stat.window} e \code{mean.window} restituiscono un vettore numerico della stessa lunghezza di \code{x} contenenti rispettivamente la statistica \code{stat} o la media sulla finestra mobile richiesta.
+
+La funzione \code{detect.event} restituisce un \code{data.frame} contenente una riga per ciascun evento di superamento, con le colonne
+\item{index.event.start}{posizione del primo timestep di superamento in \code{x}}
+\item{event.duration}{durata - in timestep - dell'evento}
+\item{event.max}{massimo di \code{x} nell'evento}
+\item{index.event.max}{posizione in \code{x} del massimo di \code{x} nell'evento}
+
+La funzione \code{shift} restituisce un vettore numerico della stessa lunghezza di \code{x}.
 }
 \references{
 %% ~put references to the literature/web site here ~
 }
-\author{
+%\author{
 %%  ~~who you are~~
-G.Bonafè
-}
-\note{
+%G.Bonafè
+%}
+%\note{
 %%  ~~further notes~~
-}
+%}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
+%\seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+%}

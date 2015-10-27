@@ -10,7 +10,7 @@ Restituisce la lista delle stazioni attive.
 Restituisce la lista delle stazioni attive in una provincia, in una data
 }
 \usage{
-dbqa.list.active.staz(con, prov, Day = Sys.Date())
+dbqa.list.active.staz(con, prov, Day = Sys.Date(), mobile=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,6 +25,10 @@ sigla della provincia
   \item{Day}{
 %%     ~~Describe \code{Day} here~~
 data richiesta, in formato POSIX
+}
+  \item{mobile}{
+%%     ~~Describe \code{Day} here~~
+se \code{TRUE}, include anche i laboratori mobili
 }
 }
 \details{

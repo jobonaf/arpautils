@@ -1,3 +1,13 @@
+Changes in arpautils 0.8.15 [2015-10-12]
+=====================================
+ * detect.event restituisce anche index.max, indice del [primo] massimo nell'evento
+
+
+Changes in arpautils 0.8.14 [2015-05-18]
+=====================================
+ * dbqa.list.active.staz include laboratori mobili, se richiesto
+
+
 Changes in arpautils 0.8.13 [2015-03-20]
 =====================================
  * timezone da BST a Africa/Algiers
