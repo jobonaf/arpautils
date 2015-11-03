@@ -55,6 +55,8 @@ calculate.ozone_annual_report <- function(data){
     ndays  <- Ndays.in.year(Year(yTime[1]))
     nhours <- ndays*24
 
+    # media annua
+    annual.mean      <- dbqa.round(mean(yDat, na.rm=T),id.param=7)
     # - max media mobile 8h
     ave.8h <- mean.window(x=as.vector(Dat),k=8,necess=6)
     max.ave.8h <- stat.period(x=ave.8h,period=day,necess=18,FUN=max)[-1]
@@ -77,6 +79,7 @@ calculate.ozone_annual_report <- function(data){
     dum <- aot(vegetDat, vegetHour, threshold=80, estimate=T, hr.min=8, hr.max=19)
     aot40.veget <- dbqa.round(dum$Aot,id.param=7)
     aot40.veget.PercValid <- dum$PercValid
+    aot40.veget.NhValid <- dum$NhValid
     ## - AOT40 annuale foreste
     forestIdx <- as.numeric(format(Time, format="%m")) %in% 4:9
     forestDat <- Dat[forestIdx]
@@ -85,6 +88,7 @@ calculate.ozone_annual_report <- function(data){
     dum <- aot(forestDat, forestHour, threshold=80, estimate=T, hr.min=8, hr.max=19)
     aot40.forest <- dbqa.round(dum$Aot,id.param=7)
     aot40.forest.PercValid <- dum$PercValid
+    aot40.forest.NhValid <- dum$NhValid
     
     ## conta dati validi nella fascia oraria di interesse
     ## per il periodo aprile-settembre
@@ -122,13 +126,16 @@ calculate.ozone_annual_report <- function(data){
     annual.report <- data.frame(cumul.nexc.180=cumul.nexc.180,
                                 cumul.nexc.240=cumul.nexc.240,
                                 cumul.nexc.120=cumul.nexc.120,
+                                annual.mean      =annual.mean,
                                 annual.nValid    =annual.nValid,     
                                 annual.nExpected =annual.nExpected,
                                 annual.efficiency=annual.efficiency,
                                 aot40.veget=           aot40.veget,
                                 aot40.veget.PercValid= aot40.veget.PercValid,
+                                aot40.veget.NhValid=   aot40.veget.NhValid,
                                 aot40.forest=          aot40.forest,
                                 aot40.forest.PercValid=aot40.forest.PercValid,
+                                aot40.forest.NhValid= aot40.forest.NhValid,
                                 nValidMonths=nValidMonths,
                                 nValidMonths0820=nValidMonths0820)
     
@@ -136,13 +143,16 @@ calculate.ozone_annual_report <- function(data){
     annual.report <- data.frame(cumul.nexc.180=NA,
                                 cumul.nexc.240=NA,
                                 cumul.nexc.120=NA,
+                                annual.mean      =NA,
                                 annual.nValid    =NA,     
                                 annual.nExpected =NA,
                                 annual.efficiency=NA,
                                 aot40.veget=           NA,
                                 aot40.veget.PercValid= NA,
+                                aot40.veget.NhValid= NA,
                                 aot40.forest=          NA,
                                 aot40.forest.PercValid=NA,
+                                aot40.forest.NhValid=NA,
                                 nValidMonths=NA,
                                 nValidMonths0820=NA)
   }

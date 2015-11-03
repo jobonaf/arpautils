@@ -106,8 +106,9 @@ aot <- function(x, hr, threshold=80, estimate=T, hr.min=8, hr.max=19) {
   delta.positive <- pmax(x[in.hr]-threshold,0)
   Aot <- sum(delta.positive, na.rm=T)
   if(estimate) Aot <- Aot*sum(in.hr)/sum(in.hr.valid)
-  PercValid <- sum(in.hr.valid)/sum(in.hr)*100
-  out <- list(Aot=Aot, PercValid=PercValid)
+  NhValid <- sum(in.hr.valid)
+  PercValid <- NhValid/sum(in.hr)*100
+  out <- list(Aot=Aot, PercValid=PercValid, NhValid=NhValid)
   return(out)
 }
 
