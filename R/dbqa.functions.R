@@ -1,20 +1,37 @@
 ## Funzioni di accesso e interrogazione al DB QA
 
 ## credenziali accesso DB
-dbqa.config <- function(db_usr, db_pwd, db_name, db_tz="Africa/Algiers") {
-  Sys.setenv(TZ=db_tz)
-  cfg <- list(db_usr=db_usr, db_pwd=db_pwd, db_name=db_name)
+dbqa.config <- function(db_usr=NULL, 
+                        db_pwd=NULL, 
+                        db_name=NULL, 
+                        db_tz="Africa/Algiers",
+                        config.file="~/util/R/dbqa_keys.R",
+                        global=TRUE) {
+  if(is.null(db_usr)) {
+    if(!file.exists(config.file)) stop(paste("Cannot find file",config.file))
+    cat(paste("Reading dbqa configuration from file",config.file),sep = "\n")
+    source(config.file,local = TRUE)
+  }
+  if(global) {
+    cat("Setting dbqa configuration globally",sep = "\n")
+    db_usr  <<- db_usr
+    db_pwd  <<- db_pwd
+    db_name <<- db_name
+    db_tz   <<- db_tz
+    Sys.setenv(TZ=db_tz)
+  }
+  cfg <- list(db_usr=db_usr, db_pwd=db_pwd, db_name=db_name, db_tz=db_tz)
   return(cfg)
 }
 
 ## funzione per connettersi al DB di qualita' dell'aria Arpa ER
 ## (Africa/Algiers = ora locale italiana senza DST)
-dbqa.connect <- function(db_usr, db_pwd, db_name, db_tz="Africa/Algiers") { 
+dbqa.connect <- function(...) { 
   ## Carichiamo la libreria Oracle
   ## Carichiamo il driver
   drv <- dbDriver("Oracle")
   ## credenziali accesso DB
-  cfg <- dbqa.config(db_usr, db_pwd, db_name, db_tz)
+  cfg <- dbqa.config(...)
   ## Creiamo la connessione al DB
   con <- dbConnect(drv,
                    username = cfg$db_usr,
@@ -225,6 +242,9 @@ dbqa.get.datastaz <- function(con,
                               id.param,
                               flg=1,
                               tstep,
+                              lod.manage=ifelse({id.param %in% c(12,14,15,18,29)},  #metalli e BaP
+                                                "half",
+                                                "keep"),
                               ...) {
   cfgsens <- dbqa.get.idcfgsens(con,
                                 id.param,
@@ -233,17 +253,12 @@ dbqa.get.datastaz <- function(con,
                                 id.staz)
   DATA <- NULL
   nsens <- length(cfgsens$idcfgsens)
-  #print(cfgsens$idcfgsens)
+  #print(lod.manage) 
   if(nsens>0) for (i in 1:nsens) {
     idate <- cfgsens$idate[i]
     fdate <- cfgsens$fdate[i]
     if(is.na(idate)) idate <- as.POSIXct(ts.range[1])
     if(is.na(fdate)) fdate <- as.POSIXct(ts.range[2])
-#     print(con)
-#     print(c(idate,fdate))
-#     print(cfgsens$idcfgsens[i])
-#     print(id.param)
-#     print(flg)
     dat <- dbqa.get.datasens (con=con,
                               ts.range=c(idate,fdate),
                               id.cfgsens=cfgsens$idcfgsens[i],
@@ -260,6 +275,12 @@ dbqa.get.datastaz <- function(con,
       DATA <- Dreg
     }
     #DATA <- data.frame(rbind(DATA,dat))
+  }
+  
+  ## gestisce il LOD (metalli e BaP)
+  if(lod.manage=="half") {
+    lod <- dbqa.lod(con=con, id.param=id.param, days=index(DATA))
+    DATA <- pmax(DATA,lod/2)
   }
   return(DATA)
 }
@@ -325,3 +346,121 @@ dbqa.round <- function(x,id.param) {
   }
   return(out)
 }
+
+# restituisce limite di quantificazione
+dbqa.lod <- function(con, id.param, days=Sys.Date()) {
+  days <- as.POSIXct(days,tz=db_tz)
+  qqq <- paste0("select * from DETECTION_LIMIT where",
+                " ID_PARAMETRO=",id.param)
+  ddd <- dbGetQuery(con,qqq)
+  matchRow <- function(day) {
+    idx <- which(day >= ddd$DT_INIZIO_VALID & 
+                   (is.na(ddd$DT_FINE_VALID) || day <= ddd$DT_FINE_VALID))
+    if(length(idx)==0) idx <- NA
+    return(idx[1])
+  }
+  idx <- unlist(lapply(days, matchRow))
+  out <- ddd$DL[idx]
+  return(out)
+}
+
+
+## converte nome inquinante in ID numerico
+dbqa.get.idparam <- function(poll, con=NULL) {
+  id.param <- NULL
+  id.param <- switch(poll,
+                     "SO2"=1,
+                     "PM10"=5,
+                     "PM2.5"=111,
+                     "NO2"=8,
+                     "NO"=38,
+                     "NOx"=9,
+                     "NOX"=9,
+                     "CO"=10,
+                     "O3"=7,
+                     "BaP"=29,
+                     "Ni"=15,
+                     "As"=18,
+                     "Cd"=14,
+                     "Pb"=12)
+  
+  ## se non è predefinito, lo cerca nei nomi del DB
+  if(is.null(id.param)) {
+    if(is.null(con)) {
+      cat("Cannot search in the DB without 'con' argument",sep="\n")
+    } else {
+      ppp <- dbqa.view.param(con, FUN = return)
+      fff <- agrep(poll, x = ppp$NOME, ignore.case = T)
+      if(length(fff)==1) {
+        cat(paste0("Selected '",ddd$NOME[fff],"'"),sep="\n")
+        id.param <- ddd$ID_PARAMETRO[fff]
+      } else if(length(fff)==0) {
+        cat(paste("Cannot find",poll), sep="\n")
+      } else if(length(fff)>1) {
+        cat(paste0("Sorry, string '",poll,"' may refer to different IDs:"), sep="\n")
+        cat(paste(paste0(ddd$ID_PARAMETRO,": '",ddd$NOME,"'")[fff],collapse="\n"),sep="\n")
+        cat("",sep="\n")
+      }
+    }
+  }
+  if(is.null(id.param)) cat("Pollutant not managed",cat="\n")
+  return(id.param)
+}
+
+
+## funzione di estrazione di un'elaborazione annuale
+dbqa.get.elab <- function(con, 
+                          year, 
+                          id.param,
+                          id.elab, 
+                          type.elab="F",
+                          only.rrqa=T, 
+                          only.valid=T,
+                          keep.all=F) {
+  qqq <- paste("select * from WEB_STAT where ",
+               "TO_CHAR(GIORNO,'YYYY')='",year,"' ",
+               " and ID_PARAMETRO=",id.param,
+               sep="")
+  if(!is.null(id.elab)) qqq <- paste(qqq,"and ID_ELABORAZIONE=",id.elab)
+  if(only.valid) qqq <- paste(qqq,"and FLG_ELAB=1")
+  #print(qqq)
+  dat <- dbGetQuery(con,qqq)
+  
+  # tiene solo RRQA se richiesto
+  if(only.rrqa) {
+    idx <- dbqa.isrrqa(con,dat$ID_CONFIG_STAZ)
+    idx[is.na(idx)] <- FALSE
+    if(length(idx)==0) return(NULL)
+    dat <- dat[which(idx),]
+  }
+  # esclude doppioni piu' vecchi
+  dat <- dat[order(dat$TS_UPD, decreasing=T),]
+  dat <- dat[order(dat$TS_INS, decreasing=T),]
+  idx <- paste(dat$ID_CONFIG_STAZ,dat$ID_ELABORAZIONE,dat$ID_EVENTO)
+  dat <- dat[which(!duplicated(idx)),]
+  
+  
+  if(keep.all) { # output originale completo
+    out <- dat  
+  } else {  # oppure colonne selezionate (più leggibile)
+    out <- data.frame(ID_CONFIG_STAZ=dat$ID_CONFIG_STAZ, 
+                      V_ELAB=dat[,paste("V_ELAB_",type.elab,sep="")],
+                      ID_ELAB=dat$ID_ELABORAZIONE,
+                      VERSION=dat$TS_INS,
+                      FLAG_ELAB=dat$FLG_ELAB)
+  }
+  return(out)
+}
+
+## restituisce descrizione di una o più elaborazioni statistiche
+dbqa.descr.elab <- function(con, id.elab=NULL) {
+  qqq <- "select ID_ELABORAZIONE,DES_ELABORAZIONE from WEB_ELAB"
+  if(!is.null(id.elab)) {
+    idelabs <- paste("(",paste(id.elab,collapse = ","),")")
+    qqq <- paste(qqq,"where ID_ELABORAZIONE IN",idelabs)
+  }
+  dat <- dbGetQuery(conn = con,qqq)
+  return(dat)
+}
+
+

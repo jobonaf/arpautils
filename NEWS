@@ -1,3 +1,11 @@
+Changes in arpautils 0.8.17 [2016-01-14]
+=====================================
+ * nuove funzioni: dbqa.lod, dbqa.get.idparam, dbqa.get.elab, dbqa.descr.elab
+ * dbqa.config ora permette di leggere le credenziali da un file e di esportarle come variabili globali
+ * dbqa.connect adeguato di conseguenza
+ * dbqa.get.datastaz gestisce il limit of detection
+ 
+
 Changes in arpautils 0.8.16 [2015-11-03]
 =====================================
  * calculate.ozone_annual_report restituisce anche annual.mean, aot40.veget.NhValid, aot40.forest.NhValid
