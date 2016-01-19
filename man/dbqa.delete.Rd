@@ -45,9 +45,6 @@ se \code{TRUE} fornisce informazioni utili per il debug
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 %%  ~~who you are~~
 Giovanni Bonafè
@@ -58,8 +55,3 @@ Giovanni Bonafè
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-}

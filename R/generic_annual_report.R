@@ -86,7 +86,7 @@ calculate.annual_report <- function(data,
       annual.percValid <- annual.nValid/ndays*100
       annual.nExpected <- ndays-4 
     }
-    annual.efficiency <- round.awayfromzero(annual.nValid/annual.nExpected*100)
+    annual.efficiency <- round_awayfromzero(annual.nValid/annual.nExpected*100)
     
     annual.report <- data.frame(annual.mean      =annual.mean,
                                 annual.nValid    =annual.nValid,
@@ -110,7 +110,7 @@ calculate.annual_report <- function(data,
       critmonths.percValid <- critmonths.nValid/length(cmDat)*100
       if(hourly) critmonths.nExpected <- length(cmDat)/24*23
       if(daily)  critmonths.nExpected <- length(cmDat)-(length(critical.months)%/%3) # esige un dato in meno a trimestre
-      critmonths.efficiency <- round.awayfromzero(critmonths.nValid/critmonths.nExpected*100)
+      critmonths.efficiency <- round_awayfromzero(critmonths.nValid/critmonths.nExpected*100)
       
       annual.report <- data.frame(annual.report,
                                   critmonths.mean      =critmonths.mean,
@@ -152,7 +152,7 @@ calculate.annual_report <- function(data,
   ## calcola superamenti giornalieri del max della media 8h
   if(!is.null(thr.ave8h.max)){
     if(!is.null(Dat)){
-      if(hourly) ave.8h <- mean.window(x=as.vector(Dat),k=8,necess=6)
+      if(hourly) ave.8h <- mean_window(x=as.vector(Dat),k=8,necess=6)
       if(daily)  stop("cannot calculate 8h moving average for daily data!")
       max.ave.8h <- stat.period(x=ave.8h,period=day,necess=18,FUN=max)[-1]
       ave8h.nexc      <- sum(as.numeric(dbqa.round(max.ave.8h,id.param)>thr.ave8h.max), na.rm=T)
@@ -243,10 +243,15 @@ write.annual_report <- function(con,
                             paste("select COD_PRV from AA_ARIA.T$01$CONFIG_STAZIONI",
                                   "where ID_CONFIG_STAZ=",AR$id.staz)))
   
+  ## gestisce LOD
+  lod <- dbqa.lod(con = con, id.param = id.param, days = AR$last.time)
   ## inserisce media annua
   id.elab=30
   flg.elab=as.numeric(!is.null(AR$annual.report$annual.efficiency) &&
                         AR$annual.report$annual.efficiency>=90)
+  ndati=NULL
+  if("hourly.nValid" %in% colnames(AR$annual.report)) ndati <- AR$annual.report$hourly.nValid
+  if("daily.nValid" %in% colnames(AR$annual.report)) ndati <- AR$annual.report$daily.nValid
   dbqa.insert(con=con, tab="WEB_STAT",
               values=data.frame(GIORNO         =date4db(AR$first.time),
                                 ID_CONFIG_STAZ =AR$id.staz,
@@ -255,6 +260,7 @@ write.annual_report <- function(con,
                                 ID_ELABORAZIONE=id.elab,
                                 ID_EVENTO      =0,
                                 V_ELAB_F       =AR$annual.report$annual.mean,
+                                N_DATI         =ndati,
                                 TS1_V1_ELAB    =date4db(AR$first.time),
                                 TS2_V1_ELAB    =date4db(AR$last.time),
                                 TS_INS         =date4db(Sys.time()),
@@ -278,6 +284,7 @@ write.annual_report <- function(con,
                                   ID_ELABORAZIONE=id.elab,
                                   ID_EVENTO      =0,
                                   V_ELAB_I       =AR$annual.report$daily.nexc,
+                                  N_DATI         =AR$annual.report$daily.nValid,
                                   TS1_V1_ELAB    =date4db(AR$first.time),
                                   TS2_V1_ELAB    =date4db(AR$last.time),
                                   TS_INS         =date4db(Sys.time()),
@@ -302,6 +309,7 @@ write.annual_report <- function(con,
                                   ID_ELABORAZIONE=id.elab,
                                   ID_EVENTO      =0,
                                   V_ELAB_I       =AR$annual.report$hourly.nexc,
+                                  N_DATI         =AR$annual.report$hourly.nValid,
                                   TS1_V1_ELAB    =date4db(AR$first.time),
                                   TS2_V1_ELAB    =date4db(AR$last.time),
                                   TS_INS         =date4db(Sys.time()),
@@ -325,6 +333,7 @@ write.annual_report <- function(con,
                                   ID_ELABORAZIONE=id.elab,
                                   ID_EVENTO      =0,
                                   V_ELAB_I       =AR$annual.report$ave8h.nexc,
+                                  N_DATI         =AR$annual.report$ave8h.nValid,
                                   TS1_V1_ELAB    =date4db(AR$first.time),
                                   TS2_V1_ELAB    =date4db(AR$last.time),
                                   TS_INS         =date4db(Sys.time()),

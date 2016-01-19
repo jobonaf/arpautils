@@ -1,3 +1,11 @@
+Changes in arpautils 0.9.0 [2016-01-19]
+=====================================
+ * modifiche a write.annual_report: ora scrive il numero di dati usati e gestisce casi <LOD
+ * modifiche a write.ozone_annual_report: ora scrive il numero di dati usati
+ * compatibilità con sintassi S3: mean.window rinominata in mean_window, round.awayfromzero rinominata in round_awayfromzero
+ * rivista la gestione di Imports in DESCRIPTION e NAMESPACE
+
+
 Changes in arpautils 0.8.17 [2016-01-14]
 =====================================
  * nuove funzioni: dbqa.lod, dbqa.get.idparam, dbqa.get.elab, dbqa.descr.elab

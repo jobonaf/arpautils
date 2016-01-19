@@ -332,7 +332,7 @@ dbqa.delete <- function(con, tab, keys, values, verbose=F) {
 }
 
 # arrotondamenti in visualizzazione, secondo indicazioni GdL
-round.awayfromzero <- function(x,digits=0) trunc(x*10^digits+sign(x)*0.5)*10^-digits
+round_awayfromzero <- function(x,digits=0) trunc(x*10^digits+sign(x)*0.5)*10^-digits
 dbqa.round <- function(x,id.param) {
   #                              O3 PM10 PM2.5 NO2  NOx SO2 C6H6   CO  BaP   As   Cd   Ni   Pb
   dat <- data.frame(idparam=c(   7,   5, 111,   8,   9,   1,  20,  10,  29,  18,  14,  15,  12),
@@ -340,7 +340,7 @@ dbqa.round <- function(x,id.param) {
   idx <- which(id.param==dat$idparam)
   if(length(idx)==1) {
     dig <- dat$digits[idx]
-    out <- round.awayfromzero(x,dig)    
+    out <- round_awayfromzero(x,dig)    
   } else {
     out <- x
   }
@@ -349,7 +349,7 @@ dbqa.round <- function(x,id.param) {
 
 # restituisce limite di quantificazione
 dbqa.lod <- function(con, id.param, days=Sys.Date()) {
-  days <- as.POSIXct(days,tz=db_tz)
+  days <- as.POSIXct(days)
   qqq <- paste0("select * from DETECTION_LIMIT where",
                 " ID_PARAMETRO=",id.param)
   ddd <- dbGetQuery(con,qqq)
@@ -392,13 +392,13 @@ dbqa.get.idparam <- function(poll, con=NULL) {
       ppp <- dbqa.view.param(con, FUN = return)
       fff <- agrep(poll, x = ppp$NOME, ignore.case = T)
       if(length(fff)==1) {
-        cat(paste0("Selected '",ddd$NOME[fff],"'"),sep="\n")
-        id.param <- ddd$ID_PARAMETRO[fff]
+        cat(paste0("Selected '",ppp$NOME[fff],"'"),sep="\n")
+        id.param <- ppp$ID_PARAMETRO[fff]
       } else if(length(fff)==0) {
         cat(paste("Cannot find",poll), sep="\n")
       } else if(length(fff)>1) {
         cat(paste0("Sorry, string '",poll,"' may refer to different IDs:"), sep="\n")
-        cat(paste(paste0(ddd$ID_PARAMETRO,": '",ddd$NOME,"'")[fff],collapse="\n"),sep="\n")
+        cat(paste(paste0(ppp$ID_PARAMETRO,": '",ppp$NOME,"'")[fff],collapse="\n"),sep="\n")
         cat("",sep="\n")
       }
     }

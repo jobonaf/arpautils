@@ -2,7 +2,7 @@
 \alias{dbqa.lod}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Restituisce il limite di rilevabilità.
+LOD
 }
 \description{
 Restituisce il limite di rilevabilità (LOD = Limit Of Detection).

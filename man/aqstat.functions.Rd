@@ -5,7 +5,7 @@
 \alias{stat.window}
 \alias{exc.period}
 \alias{shift}
-\alias{mean.window}
+\alias{mean_window}
 \alias{detect.event}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -23,7 +23,7 @@ which.period(x, period, necess, FUN=which.max)
 exc.period(x, period, necess, threshold)
 
 stat.window(x, window, necess, FUN = mean)
-mean.window(x, k, necess)
+mean_window(x, k, necess)
 
 detect.event(x, threshold)
 
@@ -61,13 +61,13 @@ soglia
 }
   \item{k}{
 %%     ~~Describe \code{k} here~~
-in \code{shift}, numero di passi di cui si vuole spostare \code{x}; in \code{mean.window}, ampiezza della finestra
+in \code{shift}, numero di passi di cui si vuole spostare \code{x}; in \code{mean_window}, ampiezza della finestra
 }}
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 Le funzioni \code{stat.period} e \code{stat.period2} calcolano una statistica \code{FUN} su periodi definiti, con approcci diversi nella gestione dei mancanti. La funzione \code{which.period} lavora come \code{stat.period}, ma si puo' usare per funzioni (come \code{which.min} o \code{which.max}) che non accettano l'argomento \code{na.rm}.
 
-Invece \code{stat.window} opera su una finestra mobile, e chiama \code{shift} che sposta la serie temporale in avanti o indietro nel tempo. Piu' efficiente, ma limitata alla media mobile, e' \code{mean.window}.
+Invece \code{stat.window} opera su una finestra mobile, e chiama \code{shift} che sposta la serie temporale in avanti o indietro nel tempo. Piu' efficiente, ma limitata alla media mobile, e' \code{mean_window}.
 
 La funzione \code{exc.period} fa il conteggio dei superamenti di una data soglia.
 Invece \code{detect.event} restituisce una matrice contenente informazioni sui superamenti della soglia (vedi sezione \code{Value}).
@@ -77,7 +77,7 @@ Le funzioni \code{stat.period}, \code{stat.period2} e \code{which.period} restit
 
 La funzione \code{exc.period} restituisce un vettore numerico contenente il conteggio dei superamenti di \code{x} per ciascuno dei valori di \code{period}.
 
-Le funzioni \code{stat.window} e \code{mean.window} restituiscono un vettore numerico della stessa lunghezza di \code{x} contenenti rispettivamente la statistica \code{stat} o la media sulla finestra mobile richiesta.
+Le funzioni \code{stat.window} e \code{mean_window} restituiscono un vettore numerico della stessa lunghezza di \code{x} contenenti rispettivamente la statistica \code{stat} o la media sulla finestra mobile richiesta.
 
 La funzione \code{detect.event} restituisce un \code{data.frame} contenente una riga per ciascun evento di superamento, con le colonne
 \item{index.event.start}{posizione del primo timestep di superamento in \code{x}}
@@ -87,19 +87,3 @@ La funzione \code{detect.event} restituisce un \code{data.frame} contenente una 
 
 La funzione \code{shift} restituisce un vettore numerico della stessa lunghezza di \code{x}.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
-%\author{
-%%  ~~who you are~~
-%G.Bonafè
-%}
-%\note{
-%%  ~~further notes~~
-%}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-%\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-%}

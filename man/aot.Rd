@@ -46,19 +46,10 @@ Restituisce una lista:
 \item{PercValid }{percentuale di dati validi per il calcolo dell'AOT}
 \item{NhValid }{numero di dati orari validi per il calcolo dell'AOT}
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 %%  ~~who you are~~
 G.Bonafè
 }
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}

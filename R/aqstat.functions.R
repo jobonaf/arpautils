@@ -58,7 +58,7 @@ stat.window <- function(x,window,necess,FUN=mean) {
   return(xmean)
 }
 
-mean.window <- function(x,k,necess) {
+mean_window <- function(x,k,necess) {
   xmean <- runmean(x,k=k,alg="C",endrule="NA",align="right")
   xvalid <- runmean(!is.na(x),k=k,alg="C",endrule="NA",align="right")*k
   xmean[xvalid < necess] <- NA

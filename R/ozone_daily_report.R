@@ -73,7 +73,7 @@ calculate.ozone_daily_report <- function(data){
 #     hours.exc.180 <- squeeze(Hour(index(dDat))[which(dDatR>180)])
 #     hours.exc.240 <- squeeze(Hour(index(dDat))[which(dDatR>240)])
     # - max media mobile 8h (con arrotondamento)
-    ave.8h <- dbqa.round(mean.window(x=as.vector(Dat),k=8,necess=6),id.param=7)
+    ave.8h <- dbqa.round(mean_window(x=as.vector(Dat),k=8,necess=6),id.param=7)
     max.ave.8h <- stat.period(x=ave.8h,period=day,necess=18,FUN=max)[-1]
     ## - no. sup. orari soglia 180 nel giorno (valori arrotondati)
     nexc.180 <- sum(as.numeric(dDatR>180), na.rm=T)
@@ -179,6 +179,8 @@ write.ozone_daily_report <- function(con,
                             paste("select COD_PRV from AA_ARIA.T$01$CONFIG_STAZIONI",
                                   "where ID_CONFIG_STAZ=",ODR$id.staz)))
   ## inserisce elaborazioni giornaliere floating
+  ## e se sono <LOD mette "<" in SEGNO e il LOD in V_ELAB_C
+  lod <- dbqa.lod(con = con, id.param = id.param, days = ODR$first.time.day)
   dbqa.insert(con=con, tab="WEB_BOLLETTINO_OZONO",
               values=data.frame(GIORNO         =date4db(ODR$first.time.day),
                                 ID_CONFIG_STAZ =ODR$id.staz,
@@ -188,6 +190,14 @@ write.ozone_daily_report <- function(con,
                                 ID_EVENTO      =0,
                                 V_ELAB_F       =c(ODR$daily.report$max.ave.8h,
                                                   ODR$daily.report$max.day),
+                                V_ELAB_C       =ifelse(test = c(ODR$daily.report$max.ave.8h,
+                                                                ODR$daily.report$max.day) < lod,
+                                                       yes  = as.character(lod),
+                                                       no   = ""),
+                                SEGNO          =ifelse(test = c(ODR$daily.report$max.ave.8h,
+                                                                ODR$daily.report$max.day) < lod,
+                                                       yes  = "<",
+                                                       no   = ""),
                                 TS1_V1_ELAB    =c(date4db(ODR$first.time.day),
                                                   date4db(ODR$first.time.day+
                                                            3600*ODR$daily.report$hour.max.day)),

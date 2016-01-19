@@ -34,9 +34,6 @@ timezone (vedi Warning)
 \section{Warning}{
   Si fa riferimento all'ora ``Africa/Algiers'' poiche' e' l'unico standard codificato corrispondente all'ora del DB, nonche' all'ora a cui si riferisce la normativa: Central Europe Time senza Daylight Saving Time (ora legale).
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
@@ -44,19 +41,7 @@ timezone (vedi Warning)
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 %%  ~~who you are~~
 Giovanni Bonafè, Arpa Emilia-Romagna
-}
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }

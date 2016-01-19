@@ -67,19 +67,7 @@ argomenti opzionali, passati a \code{dbSendQuery}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 %%  ~~who you are~~
 Giovanni Bonafè, Arpa Emilia-Romagna
-}
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }

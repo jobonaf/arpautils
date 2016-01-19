@@ -1,14 +1,14 @@
-\name{round.awayfromzero}
-\alias{round.awayfromzero}
+\name{round_awayfromzero}
+\alias{round_awayfromzero}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Arrotondamento conforme all'Istruzione Operativa I70502/SA
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Arrotondamento conforme all'Istruzione Operativa I70502/SA
 }
 \usage{
-round.awayfromzero(x, digits = 0)
+round_awayfromzero(x, digits = 0)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

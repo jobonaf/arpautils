@@ -1,1 +1,5 @@
 exportPattern("^[[:alpha:]]+")
+import(ROracle)
+import(xts)
+importFrom(zoo, index)
+importFrom(caTools, runmean)
