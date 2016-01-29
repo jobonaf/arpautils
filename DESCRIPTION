@@ -5,7 +5,8 @@ Version: 0.9.0
 Date: 2016-01-19
 Author: G.Bonafè
 Maintainer: G.Bonafè <gbonafe@arpa.emr.it>
-Imports: ROracle (>= 1.1-11),
+Depends: ROracle (>= 1.1-11),
+         DBI, 
          xts (>= 0.9-7),
          zoo,
          caTools (>= 1.17)
