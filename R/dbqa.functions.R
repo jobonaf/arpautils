@@ -457,10 +457,6 @@ dbqa.get.elab <- function(con,
 ## restituisce descrizione di una o pi? elaborazioni statistiche
 dbqa.descr.elab <- function(con, id.elab=NULL) {
   qqq <- "select ID_ELABORAZIONE,DES_ELABORAZIONE from WEB_ELAB"
-#   if(!is.null(id.elab)) {
-#     idelabs <- paste("(",paste(id.elab,collapse = ","),")")
-#     qqq <- paste(qqq,"where ID_ELABORAZIONE IN",idelabs)
-#  }
   dat <- dbGetQuery(conn = con,qqq)
   dat <- dat[match(id.elab,dat$ID_ELABORAZIONE), ,drop=F] ## riordina in base alla richiesta
   return(dat)
