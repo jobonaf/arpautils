@@ -10,7 +10,8 @@ Restituisce la lista delle stazioni attive.
 Restituisce la lista delle stazioni attive in una provincia, in una data
 }
 \usage{
-dbqa.list.active.staz(con, prov, Day = Sys.Date(), mobile=FALSE)
+dbqa.list.active.staz(con, prov=c("PC","PR","RE","MO","BO","FE","RA","FC","RN"),
+                      Day = Sys.Date(), mobile=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,7 +21,7 @@ connessione al DB
 }
   \item{prov}{
 %%     ~~Describe \code{prov} here~~
-sigla della provincia
+sigla della provincia (può essere un vettore)
 }
   \item{Day}{
 %%     ~~Describe \code{Day} here~~
@@ -35,11 +36,7 @@ se \code{TRUE}, include anche i laboratori mobili
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+Restituisce un vettore di tipo carattere, contenente i codici delle stazioni attive per la data e le province richieste
 }
 \references{
 %% ~put references to the literature/web site here ~

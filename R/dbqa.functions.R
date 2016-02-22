@@ -213,7 +213,7 @@ dbqa.isrrqa <- function(con,Id) {
 }
 
 dbqa.list.active.staz <- function(con,
-                                  prov,
+                                  prov=c("PC","PR","RE","MO","BO","FE","RA","FC","RN"),
                                   Day=Sys.Date(),
                                   mobile=FALSE) {
   day <- format(Day,format="%Y-%m-%d")
@@ -226,9 +226,11 @@ dbqa.list.active.staz <- function(con,
                  day,
                  "','YYYY-MM-DD')) ",
                  if(!mobile) "AND NVL (cst.flg_mobile, 0) = 0 ",
-                 "AND COD_PRV = '",prov,"'",sep="")
+                 "AND COD_PRV IN (",
+                 paste0("'",prov,"'",collapse=","),
+                 ")",sep="")
   data <- dbGetQuery(con, query)
-  Data <- as.character(unlist(data))
+  Data <- as.character(sort(as.numeric(unlist(data))))
   names(Data) <- NULL
   return(Data)
 }
@@ -460,6 +462,7 @@ dbqa.descr.elab <- function(con, id.elab=NULL) {
     qqq <- paste(qqq,"where ID_ELABORAZIONE IN",idelabs)
   }
   dat <- dbGetQuery(conn = con,qqq)
+  dat <- dat[match(dat$ID_ELABORAZIONE,id.elab), ] ## riordina in base alla richiesta
   return(dat)
 }
 
