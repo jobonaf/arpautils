@@ -1,4 +1,9 @@
-Changes in arpautils 0.9.0 [2016-01-19]
+Changes in arpautils 0.9.1 [2016-02-22]
+=====================================
+ * corretto errore in dbqa.descr.elab
+ 
+ 
+ Changes in arpautils 0.9.0 [2016-01-19]
 =====================================
  * modifiche a write.annual_report: ora scrive il numero di dati usati e gestisce casi <LOD
  * modifiche a write.ozone_annual_report: ora scrive il numero di dati usati

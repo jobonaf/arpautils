@@ -213,7 +213,7 @@ dbqa.isrrqa <- function(con,Id) {
 }
 
 dbqa.list.active.staz <- function(con,
-                                  prov,
+                                  prov=c("PC","PR","RE","MO","BO","FE","RA","FC","RN"),
                                   Day=Sys.Date(),
                                   mobile=FALSE) {
   day <- format(Day,format="%Y-%m-%d")
@@ -226,9 +226,11 @@ dbqa.list.active.staz <- function(con,
                  day,
                  "','YYYY-MM-DD')) ",
                  if(!mobile) "AND NVL (cst.flg_mobile, 0) = 0 ",
-                 "AND COD_PRV = '",prov,"'",sep="")
+                 "AND COD_PRV IN (",
+                 paste0("'",prov,"'",collapse=","),
+                 ")",sep="")
   data <- dbGetQuery(con, query)
-  Data <- as.character(unlist(data))
+  Data <- as.character(sort(as.numeric(unlist(data))))
   names(Data) <- NULL
   return(Data)
 }
@@ -384,7 +386,7 @@ dbqa.get.idparam <- function(poll, con=NULL) {
                      "Cd"=14,
                      "Pb"=12)
   
-  ## se non è predefinito, lo cerca nei nomi del DB
+  ## se non ? predefinito, lo cerca nei nomi del DB
   if(is.null(id.param)) {
     if(is.null(con)) {
       cat("Cannot search in the DB without 'con' argument",sep="\n")
@@ -442,7 +444,7 @@ dbqa.get.elab <- function(con,
   
   if(keep.all) { # output originale completo
     out <- dat  
-  } else {  # oppure colonne selezionate (più leggibile)
+  } else {  # oppure colonne selezionate (pi? leggibile)
     out <- data.frame(ID_CONFIG_STAZ=dat$ID_CONFIG_STAZ, 
                       V_ELAB=dat[,paste("V_ELAB_",type.elab,sep="")],
                       ID_ELAB=dat$ID_ELABORAZIONE,
@@ -452,14 +454,15 @@ dbqa.get.elab <- function(con,
   return(out)
 }
 
-## restituisce descrizione di una o più elaborazioni statistiche
+## restituisce descrizione di una o pi? elaborazioni statistiche
 dbqa.descr.elab <- function(con, id.elab=NULL) {
   qqq <- "select ID_ELABORAZIONE,DES_ELABORAZIONE from WEB_ELAB"
-  if(!is.null(id.elab)) {
-    idelabs <- paste("(",paste(id.elab,collapse = ","),")")
-    qqq <- paste(qqq,"where ID_ELABORAZIONE IN",idelabs)
-  }
+#   if(!is.null(id.elab)) {
+#     idelabs <- paste("(",paste(id.elab,collapse = ","),")")
+#     qqq <- paste(qqq,"where ID_ELABORAZIONE IN",idelabs)
+#  }
   dat <- dbGetQuery(conn = con,qqq)
+  dat <- dat[match(id.elab,dat$ID_ELABORAZIONE), ,drop=F] ## riordina in base alla richiesta
   return(dat)
 }
 
