@@ -156,16 +156,19 @@ calculate.annual_report <- function(data,
       if(daily)  stop("cannot calculate 8h moving average for daily data!")
       max.ave.8h <- stat.period(x=ave.8h,period=day,necess=18,FUN=max)[-1]
       ave8h.nexc      <- sum(as.numeric(dbqa.round(max.ave.8h,id.param)>thr.ave8h.max), na.rm=T)
+      ave8h.yave      <- dbqa.round(mean(max.ave.8h, na.rm=T), id.param)
       ave8h.nValid    <- sum(as.numeric(!is.na(max.ave.8h)))
       ave8h.percValid <- ave8h.nValid/ndays*100
       
       annual.report <- data.frame(annual.report,
                                   ave8h.nexc     =ave8h.nexc,
+                                  ave8h.yave     =ave8h.yave,
                                   ave8h.nValid   =ave8h.nValid,
                                   ave8h.percValid=ave8h.percValid)
     }else{
       annual.report <- data.frame(annual.report,
                                   ave8h.nexc     =NA,
+                                  ave8h.yave     =NA,
                                   ave8h.nValid   =NA,
                                   ave8h.percValid=NA)
     }
@@ -336,6 +339,30 @@ write.annual_report <- function(con,
                                   ID_ELABORAZIONE=id.elab,
                                   ID_EVENTO      =0,
                                   V_ELAB_I       =AR$annual.report$ave8h.nexc,
+                                  TS1_V1_ELAB    =date4db(AR$first.time),
+                                  TS2_V1_ELAB    =date4db(AR$last.time),
+                                  TS_INS         =date4db(Sys.time()),
+                                  FLG_ELAB       =flg.elab,
+                                  N_DATI         =AR$annual.report$ave8h.nValid,
+                                  row.names = NULL),
+                to_date=c(1,8,9,10),
+                verbose=verbose,
+                ...)
+  }
+  
+  ## inserisce media annua del max giorn.media 8h (CO)
+  if(id.param %in% c(10) & ("ave8h.yave" %in% colnames(AR$annual.report))) { 
+    if(id.param==10) id.elab=821
+    flg.elab=as.numeric(!is.null(AR$annual.report$annual.efficiency) &&
+                          AR$annual.report$annual.efficiency>=90)
+    dbqa.insert(con=con, tab="WEB_STAT",
+                values=data.frame(GIORNO         =date4db(AR$first.time),
+                                  ID_CONFIG_STAZ =AR$id.staz,
+                                  COD_PRV        =prov,
+                                  ID_PARAMETRO   =id.param,
+                                  ID_ELABORAZIONE=id.elab,
+                                  ID_EVENTO      =0,
+                                  V_ELAB_F       =AR$annual.report$ave8h.yave,
                                   TS1_V1_ELAB    =date4db(AR$first.time),
                                   TS2_V1_ELAB    =date4db(AR$last.time),
                                   TS_INS         =date4db(Sys.time()),
