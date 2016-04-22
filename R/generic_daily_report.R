@@ -79,6 +79,8 @@ calculate.daily_report <- function(data,
     if(!hourly & !daily) stop("cannot manage timestep!")
   } else {
     daily.report <- NULL
+    hourly <- FALSE
+    daily <- FALSE
   }
   
   if(hourly){
@@ -222,7 +224,7 @@ calculate.daily_report <- function(data,
               events=events,
               id.staz=data$id.staz,
               first.time.year=yTime[1],
-              last.time=dTime[24]+3600,
+              last.time=if(hourly){dTime[24]+3600}else{dTime[1]+24*3600},
               first.time.day=dTime[1])
   return(Out)
 }
@@ -233,6 +235,16 @@ write.daily_report <- function(con,
                                verbose=F,
                                ...) {
   
+  ## elimina record del GIORNO-CONFIG_STAZ-PARAMETRO
+  dbqa.delete(con=con, tab="WEB_STAT",
+              keys=c("to_char(GIORNO,'YYYY-MM-DD')",
+                     "ID_CONFIG_STAZ",
+                     "ID_PARAMETRO"),
+              values=c(paste("'",format(DR$first.time.day,"%Y-%m-%d"),"'",sep=""),
+                       DR$id.staz,
+                       id.param),
+              verbose=verbose)
+  dbCommit(con)
   date4db <- function(x) {format(x,format="%Y-%m-%d %H:%M")}
   prov <- unlist(dbGetQuery(con,
                             paste("select COD_PRV from AA_ARIA.T$01$CONFIG_STAZIONI",
@@ -349,9 +361,9 @@ write.daily_report <- function(con,
   } 
   
   # cumul max8h (CO)
-  if(id.param==8) {
+  if(id.param==10) {
     ide <- switch (as.character(id.param),
-                   "1" = 118)
+                   "10" = 118)
     dbqa.insert_elab(id_elab=ide,
                      v_elab=DR$daily.report$cumul.ave8h.nexc,
                      type="I",

@@ -1,4 +1,4 @@
-\name{daily_report}
+\name{generic_daily_report}
 \alias{prepare.daily_report}
 \alias{calculate.daily_report}
 \alias{write.daily_report}
