@@ -193,7 +193,8 @@ calculate.annual_report <- function(data,
   ## conta superamenti orari
   if(!is.null(thr.hourly)){
     if(!is.null(yDat) & hourly){
-      hourly.nexc <- sum(as.numeric(yDat>thr.hourly), na.rm=T)
+      hourly.nexc <- sum(as.numeric(dbqa.round(yDat,id.param = id.param)>thr.hourly),
+                         na.rm=T)
       
       annual.report <- data.frame(annual.report,
                                   hourly.nexc=hourly.nexc)
@@ -206,7 +207,8 @@ calculate.annual_report <- function(data,
   ## conta superamenti orari per piu' di NH ore consecutive
   if(!is.null(thr.multihourly)){
     if(!is.null(yDat) & hourly){
-      multihourly.exc <- detect.event(yDat,thr.multihourly)$duration > NH
+      multihourly.exc <- detect.event(dbqa.round(yDat,id.param = id.param),
+                                      thr.multihourly)$duration > NH
       multihourly.nexc <- sum(as.numeric(multihourly.exc), na.rm=T)
       
       annual.report <- data.frame(annual.report,

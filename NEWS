@@ -1,3 +1,14 @@
+Changes in arpautils 0.9.4 [2016-04-22]
+=====================================
+ * write.daily_report gestisce meglio i mancanti
+ 
+ 
+Changes in arpautils 0.9.3 [2016-04-08]
+=====================================
+ * corretto annual report (mancava un arrotondamento)
+ * aggiunte funzioni prepare.daily_report, calculate.daily_report, write.daily_report
+ 
+ 
 Changes in arpautils 0.9.2 [2016-04-04]
 =====================================
  * aggiunta media annua del max giorn.media 8h per CO (id.elab=821)
