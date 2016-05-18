@@ -1,8 +1,8 @@
 Package: arpautils
 Type: Package
 Title: R utility functions for Arpae ER air quality data
-Version: 0.9.4
-Date: 2016-04-22
+Version: 0.9.5
+Date: 2016-05-18
 Author: G.Bonafè
 Maintainer: G.Bonafè <gbonafe@arpa.emr.it>
 Depends: ROracle (>= 1.1-11),

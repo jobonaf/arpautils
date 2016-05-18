@@ -111,9 +111,9 @@ calculate.ozone_annual_report <- function(data){
     
     ## conta giorni validi
     ## per il periodo aprile-settembre
-    yDy <- Ymd(yTime)
-    dValid <- tapply(X=yValid, INDEX=yDy, FUN=sum)>=18
-    yyyymm <- substr(unique(yDy),1,6)
+    dValid <- !is.na(max.ave.8h)
+    dDay <- unique(day)[-1]
+    yyyymm <- substr(dDay,1,6)
     mValid     <- tapply(X=dValid, INDEX=yyyymm, FUN=sum)
     ## calcola efficienza mensile su base giornaliera
     mExpected  <- tapply(X=dValid, INDEX=yyyymm, FUN=length)
