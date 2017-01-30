@@ -129,13 +129,13 @@ dbqa.get.idcfgsens <- function(con,
             paste("ID_STAZIONE=",id.staz,sep=""))
   if(!is.null(i.date)) {
     crit <- c(crit,
-              paste("(DATA_FINE is null OR to_char(DATA_FINE,'YYYYMMDD')>='",
+              paste("(DATA_FINE is null OR to_char(DATA_FINE,'YYYYMMDDHH')>='",
                     format(as.POSIXct(i.date),format="%Y%m%d%H"),
                     "')", sep=""))
   }
   if(!is.null(f.date)) {
     crit <- c(crit,
-              paste("(DATA_INIZIO is null OR to_char(DATA_INIZIO,'YYYYMMDD')<='",
+              paste("(DATA_INIZIO is null OR to_char(DATA_INIZIO,'YYYYMMDDHH')<='",
                     format(as.POSIXct(f.date),format="%Y%m%d%H"),
                     "')", sep=""))
   }
