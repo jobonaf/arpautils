@@ -26,14 +26,14 @@ dbqa.config(db_usr=NULL,
   \item{global}{TRUE se si vuole che \code{db_usr}, \code{db_pwd}, \code{db_name} e \code{db_tz} siano definite globalmente}
 }
 \details{
-La definizione delle credenziali di accesso \code{db_usr}, \code{db_pwd} e \code{db_name} e della timezone \code{db_tz} può avvenire passando gli argomenti alla funzione, oppure raccogliendoli in un file personale \code{config.file}. Il file conterrà quattro righe:
+La definizione delle credenziali di accesso \code{db_usr}, \code{db_pwd} e \code{db_name} e della timezone \code{db_tz} puÃ² avvenire passando gli argomenti alla funzione, oppure raccogliendoli in un file personale \code{config.file}. Il file conterrÃ  quattro righe:
 \preformatted{
 db_usr = "uuu"
 db_pwd = "ppp"
 db_name = "//111.111.11.111:2222/sss"
 db_tz = "Africa/Algiers"
 }
-In questo esempio, "uuu" è il nome utente, "ppp" la password, 111.111.11.111 è l'indirizzo IP del server Oracle, 2222 la porta, "sss" il nome del service.
+In questo esempio, "uuu" Ã¨ il nome utente, "ppp" la password, 111.111.11.111 Ã¨ l'indirizzo IP del server Oracle, 2222 la porta, "sss" il nome del service.
 }
 \value{
 %%  ~Describe the value returned
@@ -41,8 +41,4 @@ In questo esempio, "uuu" è il nome utente, "ppp" la password, 111.111.11.111 è l
 %%  \item{comp1 }{Description of 'comp1'}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
-}
-\author{
-%%  ~~who you are~~
-Giovanni Bonafè, Arpa Emilia-Romagna
 }

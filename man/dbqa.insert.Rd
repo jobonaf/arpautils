@@ -59,7 +59,7 @@ se \code{TRUE} fornisce informazioni utili al debug
 }
 \author{
 %%  ~~who you are~~
-Giovanni Bonafè
+Giovanni BonafÃ¨
 }
 \note{
 %%  ~~further notes~~

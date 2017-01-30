@@ -48,10 +48,6 @@ codice numerico identificativo della stazione
 \references{
 %% ~put references to the literature/web site here ~
 }
-\author{
-%%  ~~who you are~~
-Giovanni Bonafè, Arpa Emilia-Romagna
-}
 \note{
 %%  ~~further notes~~
 }

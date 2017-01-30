@@ -58,7 +58,7 @@ parametri opzionali. La funzione \code{prepare.daily_report} li passa a \code{db
 %% ...
 La funzione \code{calculate.daily_report} restituisce una lista di due oggetti:
 
-\code{daily.report} è un \code{data.frame} di un sola riga con le seguenti colonne (NB i superamenti sono calcolati solo se in input è fornita la corrispondente soglia):
+\code{daily.report} Ã¨ un \code{data.frame} di un sola riga con le seguenti colonne (NB i superamenti sono calcolati solo se in input Ã¨ fornita la corrispondente soglia):
 \item{mean.day}{media giornaliera}
 \item{max.day}{massima giornaliera}
 \item{hour.max.day}{ora del massimo}
@@ -73,15 +73,11 @@ La funzione \code{calculate.daily_report} restituisce una lista di due oggetti:
 \item{cumul.hourly.nValid}{numero di dati orari validi dall'inizio dell'anno}
 \item{cumul.hourly.nexc}{numero di superamenti orari dall'inizio dell'anno}
 
-\code{events} è una lista contenente un data.frame avente colonne \code{start.time} e \code{duration}, contenente gli eventi orari di superamento della soglia 
+\code{events} Ã¨ una lista contenente un data.frame avente colonne \code{start.time} e \code{duration}, contenente gli eventi orari di superamento della soglia 
 
 }
 \references{
 %% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-Giovanni Bonafè, Arpae Emilia-Romagna
 }
 \note{
 %%  ~~further notes~~

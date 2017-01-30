@@ -48,10 +48,10 @@ soglia per il max giornaliero della media mobile su 8h
 soglia oraria
 }
   \item{thr.multihourly}{
-soglia per superamenti orari di più ore consecutive
+soglia per superamenti orari di piÃ¹ ore consecutive
 }
   \item{NH}{
-numero di ore consecutive di superamento da contare se \code{thr.multihourly} non è NULL
+numero di ore consecutive di superamento da contare se \code{thr.multihourly} non ? NULL
 }
   \item{critical.months}{
 vettore numerico dei mesi su cui calcolare la media di periodo (p.es. \code{c(1:3,10:12)} per la media invernale)
@@ -82,12 +82,12 @@ La funzione \code{calculate.annual_report} restituisce un \code{data.frame} con:
 \item{annual.nExpected}{numero di dati attesi nell'anno}
 \item{annual.efficiency}{rapporto tra numero di dati disponibili e attesi nell'anno}
 
-se \code{thr.daily.ave} non è \code{NULL} allora \code{data.frame} ha anche:
+se \code{thr.daily.ave} non ? \code{NULL} allora \code{data.frame} ha anche:
 \item{daily.nexc}{superamenti della media giornaliera}
 \item{daily.nValid}{numero di dati validi usati per il calcolo dei superamenti della media giornaliera}
 \item{daily.percValid}{percentuale di dati validi usati per il calcolo dei superamenti della media giornaliera}
 
-se \code{thr.ave8h.max} non è \code{NULL} allora \code{data.frame} ha anche:
+se \code{thr.ave8h.max} non ? \code{NULL} allora \code{data.frame} ha anche:
 \item{ave8h.nexc}{superamenti del max giornaliero della media mobile su 8h}
 \item{ave8h.nValid}{numero di dati validi usati per il calcolo dei superamenti del max giornaliero della media mobile su 8h}
 \item{ave8h.percValid}{percentuale di dati validi usati per il calcolo dei superamenti del max giornaliero della media mobile su 8h}
@@ -96,13 +96,13 @@ se \code{thr.hourly} o \code{thr.multihourly} non sono \code{NULL} allora \code{
 \item{hourly.nValid}{numero di dati orari validi}
 \item{hourly.percValid}{percentuale di dati orari validi}
 
-se \code{thr.hourly} non è \code{NULL} allora \code{data.frame} ha anche:
+se \code{thr.hourly} non ? \code{NULL} allora \code{data.frame} ha anche:
 \item{hourly.nexc}{numero di superamenti orari}
 
-se \code{thr.multihourly} non è \code{NULL} allora \code{data.frame} ha anche:
+se \code{thr.multihourly} non ? \code{NULL} allora \code{data.frame} ha anche:
 \item{multihourly.nexc}{numero di superamenti orari di almeno NH ore consecutive}
 
-se \code{critical.months} non è \code{NULL} allora \code{data.frame} ha anche:
+se \code{critical.months} non ? \code{NULL} allora \code{data.frame} ha anche:
 \item{critmonths.mean     }{media dei mesi selezionati}
 \item{critmonths.nValid   }{numero di dati validi nei mesi selezionati}
 \item{critmonths.percValid}{percentuale di dati validi nei mesi selezionati}
@@ -112,10 +112,6 @@ se \code{critical.months} non è \code{NULL} allora \code{data.frame} ha anche:
 }
 \references{
 %% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-Giovanni Bonafè, Arpa Emilia-Romagna
 }
 \note{
 %%  ~~further notes~~

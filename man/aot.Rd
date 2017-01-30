@@ -46,10 +46,6 @@ Restituisce una lista:
 \item{PercValid }{percentuale di dati validi per il calcolo dell'AOT}
 \item{NhValid }{numero di dati orari validi per il calcolo dell'AOT}
 }
-\author{
-%%  ~~who you are~~
-G.Bonafè
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

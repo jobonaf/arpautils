@@ -43,5 +43,5 @@ timezone (vedi Warning)
 }
 \author{
 %%  ~~who you are~~
-Giovanni Bonafè, Arpa Emilia-Romagna
+Giovanni BonafÃ¨, Arpa Emilia-Romagna
 }

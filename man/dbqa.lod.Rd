@@ -5,7 +5,7 @@
 LOD
 }
 \description{
-Restituisce il limite di rilevabilit‡ (LOD = Limit Of Detection).
+Restituisce il limite di rilevabilit√† (LOD = Limit Of Detection).
 }
 \usage{
 dbqa.lod(con, id.param, days = Sys.Date())

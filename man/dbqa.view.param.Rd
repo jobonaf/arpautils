@@ -34,10 +34,6 @@ azione da applicare per la visualizzazione della matrice (usare \code{return} se
 \references{
 %% ~put references to the literature/web site here ~
 }
-\author{
-%%  ~~who you are~~
-Giovanni Bonafè, Arpa Emilia-Romagna
-}
 \note{
 %%  ~~further notes~~
 }

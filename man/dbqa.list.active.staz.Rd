@@ -21,7 +21,7 @@ connessione al DB
 }
   \item{prov}{
 %%     ~~Describe \code{prov} here~~
-sigla della provincia (può essere un vettore)
+sigla della provincia (puÃ² essere un vettore)
 }
   \item{Day}{
 %%     ~~Describe \code{Day} here~~
@@ -40,10 +40,6 @@ Restituisce un vettore di tipo carattere, contenente i codici delle stazioni att
 }
 \references{
 %% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-Giovanni Bonafè
 }
 \note{
 %%  ~~further notes~~

@@ -23,7 +23,7 @@ connessione
 Prima cerca in una lista di poche sigle usate di frequente. Se non trova corrispondenza, cerca una stringa simile tra i nomi nel DB.
 }
 \value{
-ID numerico del parametro (inquinante). Se la stringa Ë ambigua o priva di corrispondenze, restituisce \code{NULL}, ma d‡ qualche messaggio utile.
+ID numerico del parametro (inquinante). Se la stringa √® ambigua o priva di corrispondenze, restituisce \code{NULL}, ma d√† qualche messaggio utile.
 }
 \references{
 %% ~put references to the literature/web site here ~

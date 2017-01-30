@@ -26,7 +26,7 @@ anno
 codice numerico identificativo del parametro
 }
   \item{id.elab}{
-codice numerico identificativo dell'elaborazione. In \code{dbqa.descr.elab} può essere \code{NULL} (è il default) per vedere la denominazione di tutte le elaborazioni definite (molte delle quali non sono però calcolate).
+codice numerico identificativo dell'elaborazione. In \code{dbqa.descr.elab} puÃ² essere \code{NULL} (Ã¨ il default) per vedere la denominazione di tutte le elaborazioni definite (molte delle quali non sono perÃ² calcolate).
 }
   \item{type.elab}{
 tipo di elaborazione:

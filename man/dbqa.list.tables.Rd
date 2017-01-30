@@ -32,10 +32,6 @@ connessione al DB
 \references{
 %% ~put references to the literature/web site here ~
 }
-\author{
-%%  ~~who you are~~
-Giovanni Bonafe', Arpa Emilia-Romagna
-}
 \note{
 %%  ~~further notes~~
 }

@@ -3,8 +3,8 @@ Type: Package
 Title: R utility functions for Arpae ER air quality data
 Version: 0.9.6
 Date: 2017-01-30
-Author: G.Bonafè
-Maintainer: G.Bonafè <gbonafe@arpa.emr.it>
+Authors@R: c(person("Giovanni", "Bonafe'", role = c("aut", "cre"),
+                     email = "giovanni.bonafe@arpa.fvg.it"))
 Depends: ROracle (>= 1.1-11),
          DBI, 
          xts (>= 0.9-7),
@@ -12,4 +12,4 @@ Depends: ROracle (>= 1.1-11),
          caTools (>= 1.17)
 Description: Funzioni utili per gestire i dati di qualità dell'aria di Arpa Emilia-Romagna.
 License: GPL-2
-Encoding: latin1
+Encoding: UTF-8

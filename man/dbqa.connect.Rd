@@ -23,10 +23,6 @@ dbqa.connect(...)
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
-\author{
-%%  ~~who you are~~
-Giovanni Bonafè, Arpa Emilia-Romagna
-}
 
 \seealso{
 \code{\link{dbqa.config}}

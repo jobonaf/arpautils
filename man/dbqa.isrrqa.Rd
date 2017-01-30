@@ -2,10 +2,10 @@
 \alias{dbqa.isrrqa}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-controlla se una stazione e' in RRQA
+controlla se una stazione è in RRQA
 }
 \description{
-controlla se una stazione e' parte della rete RRQA
+controlla se una stazione è parte della rete RRQA
 }
 \usage{
 dbqa.isrrqa(con, Id)

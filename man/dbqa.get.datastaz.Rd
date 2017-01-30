@@ -42,8 +42,8 @@ stringa di carattere che identifica il timestep:
   \item{lod.manage}{
 stringa di carattere che specifica come devono essere gestiti i valori inferiori al Limit Of Detection:
 \itemize{
-  \item "half" sostituisce con LOD/2 (è il default per benzoapirene e alcuni metalli)
-  \item "keep" tiene il valore osservato (è il default per gli altri parametri)
+  \item "half" sostituisce con LOD/2 (Ã¨ il default per benzoapirene e alcuni metalli)
+  \item "keep" tiene il valore osservato (Ã¨ il default per gli altri parametri)
 }
 }
   \item{\dots}{
@@ -60,10 +60,6 @@ argomenti opzionali, passati a \code{dbqa.get.datasens}
 %%  \item{comp1 }{Description of 'comp1'}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
-}
-\author{
-%%  ~~who you are~~
-Giovanni Bonafè, Arpa Emilia-Romagna
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

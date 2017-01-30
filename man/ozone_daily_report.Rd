@@ -70,10 +70,6 @@ La funzione \code{calculate.ozone_daily_report} restituisce una lista di due ogg
 \references{
 %% ~put references to the literature/web site here ~
 }
-\author{
-%%  ~~who you are~~
-Giovanni Bonafè, Arpa Emilia-Romagna
-}
 \note{
 %%  ~~further notes~~
 }
